@@ -1,5 +1,6 @@
 ---
-import '../styles/global.css'
+import '../styles/global.css';
+import { SquareMenu, CircleX } from '@lucide/astro';
 ---
 
 <!doctype html>
@@ -18,9 +19,15 @@ import '../styles/global.css'
 	</head>
 	<body class="flex flex-col bg-primary-darkest">
 		<div class="flex justify-between p-5">
-			<span class="text-4xl text-primary-light">TS | BLOG</span>
+			<span class="text-4xl text-primary-light">
+				TS
+			</span>
 
-			<div class="flex flex-row gap-5 items-center mx-8">
+			<span class="hidden md:visible text-4xl text-primary-light">
+				| BLOG
+			</span>
+
+			<div class="hidden md:flex flex-row gap-5 items-center mx-8">
 				<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/about-me">
 					/about-me
 				</a>
@@ -33,6 +40,28 @@ import '../styles/global.css'
 					/projects
 				</a>
 			</div>
+			
+			<a id="menuBtn" class="text-3xl md:hidden">
+				<SquareMenu size="1lh" />
+			</a>
+		</div>
+
+		<div id="menu" class="absolute w-full h-full bg-primary-darkest hidden flex-col items-center justify-center z-50 gap-5">
+			<a id="closeBtn" class="text-xl hover:underline underline-offset-8 hover:text-primary-light">
+				<CircleX size="1lh" />
+			</a>
+
+			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/about-me">
+				/about-me
+			</a>
+
+			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/posts">
+				/posts
+			</a>
+
+			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/projects">
+				/projects
+			</a>
 		</div>
 
 		<slot />
@@ -47,3 +76,36 @@ import '../styles/global.css'
 		height: 100%;
 	}
 </style>
+
+<script>
+	const displayMenu = () => {
+		const elem = document.getElementById("menu");
+
+		if (!elem) {
+			return;
+		}
+
+		elem.classList.replace("hidden", "flex");
+	}
+
+	const hideMenu = () => {
+		const elem = document.getElementById("menu");
+
+		if (!elem) {
+			return;
+		}
+
+		elem.classList.replace("flex", "hidden");
+	}
+
+	hideMenu();
+	const btn = document.getElementById("menuBtn");
+	btn?.addEventListener("click", () => {
+		displayMenu();
+	});
+
+	const closeBtn = document.getElementById("closeBtn");
+	closeBtn?.addEventListener("click", () => {
+		hideMenu();
+	});
+</script>
