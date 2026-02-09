@@ -1,6 +1,5 @@
 ---
-import GithubIcon from "@astropub/icons/GitHubLogo";
-import EmailIcon from "@astropub/icons/EnvelopeClosed";
+import { Github, Mail } from '@lucide/astro';
 ---
 
 <div class="flex flex-col items-center justify-center flex-1">
@@ -37,10 +36,10 @@ import EmailIcon from "@astropub/icons/EnvelopeClosed";
     <div class="flex flex-row my-16 gap-5">
         <a
             class="text-5xl hover:text-primary-light"
-            href="https://github.com/titosilva/tito-blog"
+            href="https://github.com/titosilva"
             target="_blank"
         >
-            <GithubIcon height="1lh" />
+            <Github size="1lh" />
         </a>
 
         <div class="relative group">
@@ -51,7 +50,7 @@ import EmailIcon from "@astropub/icons/EnvelopeClosed";
                 class="text-5xl hover:text-primary-light transition-colors"
                 data-email="jt.mat@hotmail.com"
             >
-                <EmailIcon height="1lh" />
+                <Mail size="1lh" />
             </button>
 
             <!-- Tooltip -->
