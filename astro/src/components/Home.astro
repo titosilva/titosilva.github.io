@@ -1,0 +1,167 @@
+---
+import GithubIcon from "@astropub/icons/GitHubLogo";
+import EmailIcon from "@astropub/icons/EnvelopeClosed";
+---
+
+<div class="flex flex-col items-center justify-center flex-1">
+    <div class="flex flex-row items-center">
+        <div
+            class="flex flex-col items-center w-fit rounded-md border-2 border-primary-light"
+        >
+            <span class="text-4xl text-primary-darkest p-5 bg-primary-light">
+                TITO SILVA
+            </span>
+
+            <button
+                id="title"
+                type="button"
+                class="text-primary-light p-3 cursor-pointer transition-opacity duration-300"
+            >
+                SOFTWARE DEVELOPER
+            </button>
+        </div>
+
+        <div class="flex flex-col mx-5">
+            <span class="text-primary-light text-4xl underline-offset-8"
+                >Hello, nice to meet you.</span
+            >
+            <span class="text-4xl my-3">Let's build something together.</span>
+            <a href="/about-me">
+                <span class="underline-offset-8 hover:text-primary-light"
+                    ><u>Discover more about my work</u> >></span
+                >
+            </a>
+        </div>
+    </div>
+
+    <div class="flex flex-row my-16 gap-5">
+        <a
+            class="text-5xl hover:text-primary-light"
+            href="https://github.com/titosilva/tito-blog"
+            target="_blank"
+        >
+            <GithubIcon height="1lh" />
+        </a>
+
+        <div class="relative group">
+            <button
+                id="email-btn"
+                type="button"
+                aria-label="Copy email"
+                class="text-5xl hover:text-primary-light transition-colors"
+                data-email="jt.mat@hotmail.com"
+            >
+                <EmailIcon height="1lh" />
+            </button>
+
+            <!-- Tooltip -->
+            <div
+                id="email-tooltip"
+                class="pointer-events-none
+      absolute bottom-full left-1/2 mb-3
+      -translate-x-1/2
+      opacity-0 scale-95
+      group-hover:opacity-100 group-hover:scale-100
+      transition-all duration-200
+      bg-primary-darkest
+      border border-primary-light
+      text-primary-light
+      text-sm
+      rounded-md
+      px-3 py-2
+      whitespace-nowrap"
+            >
+                <span id="email-tooltip-text">Click to copy email</span>
+
+                <!-- little arrow -->
+                <span
+                    class="absolute top-full left-1/2
+        -translate-x-1/2
+        w-0 h-0
+        border-l-8 border-r-8 border-t-8
+        border-l-transparent border-r-transparent
+        border-t-primary-light"
+                ></span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const titles = [
+        "SOFTWARE ENGINEER",
+        "TECH LEAD",
+        "BRAZIL!",
+        "FULLSTACK DEVELOPER",
+        "PROBLEM SOLVER",
+        "CRYPTOGRAPHY LOVER",
+        "NOT AN AI",
+        "MATH ADDICT",
+        "FATHER OF A LITTLE BOY",
+    ];
+
+    const intervalMs = 2000;
+    let currentIndex = 0;
+    let timer: number | null = null;
+
+    const element = document.getElementById("title");
+
+    if (element) {
+        const nextTitle = () => {
+            element.classList.add("opacity-0");
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % titles.length;
+                element.textContent = titles[currentIndex];
+                element.classList.remove("opacity-0");
+            }, 300); // matches transition duration
+        };
+
+        // auto-rotate
+        const start = () => {
+            if (!timer) {
+                timer = setInterval(nextTitle, intervalMs);
+            }
+        };
+
+        const stop = () => {
+            if (timer != null) {
+                clearInterval(timer);
+            }
+            timer = null;
+        };
+
+        start();
+
+        // pause on hover
+        element.addEventListener("mouseenter", stop);
+        element.addEventListener("mouseleave", start);
+
+        // change on click
+        element.addEventListener("click", nextTitle);
+    }
+</script>
+
+<script>
+    const emailBtn = document.getElementById("email-btn");
+    const tooltipText = document.getElementById("email-tooltip-text");
+
+    if (emailBtn && tooltipText) {
+        const email = emailBtn.dataset.email;
+
+        emailBtn.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(email!);
+
+                tooltipText.textContent = "Copied! ✔";
+
+                // reset text after a bit
+                setTimeout(() => {
+                    tooltipText.textContent = "Click to copy email";
+                }, 2000);
+            } catch {
+                tooltipText.textContent = "Failed to copy 😕";
+            }
+        });
+    }
+</script>
