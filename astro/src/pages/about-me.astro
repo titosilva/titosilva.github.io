@@ -5,37 +5,19 @@ import Contacts from '../components/Contacts.astro';
 ---
 
 <Layout>
-	<section>
-		<h1 class="text-5xl text-primary-light my-5">
-            Tito Silva
-        </h1>
-		
-		<p class="text-xl">
-			<span class="text-primary-light">
-                Software Developer
-            </span> 
-            and 
-            <span class="text-primary-light">
-                Tech Lead
-            </span>
-            with 5+ years of experience in distributed systems, software architecture, and cloud solutions (Azure, AWS). 
-            Strong background in multiple programming languages, systems design, scalability, and technical leadership in B2B and SaaS environments.
+	<section class="mx-auto py-8">
+		<h1 class="text-5xl font-bold text-primary-light mb-4">Tito Silva</h1>
+		<p class="text-xl mb-6">
+			<span class="text-primary-light">Software Developer</span> and <span class="text-primary-light">Tech Lead</span> with 5+ years of experience in distributed systems, software architecture, and cloud solutions (Azure, AWS). Strong background in multiple programming languages, systems design, scalability, and technical leadership in B2B and SaaS environments.
 		</p>
+		<Contacts />
 
-        <Contacts />
-		<!-- <h2 style="margin-top: 2rem; font-size: 1.3rem; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem;">Skills</h2>
-		<ul style="list-style: none; padding-left: 0; margin-bottom: 1.5rem;">
-			<li><strong>Backend:</strong> C# | .NET | ASP.NET | EF | Golang | C++ | C | MSSQL | MySQL | Python | Flask | NoSQL | Microservices | Distributed Systems</li>
-			<li><strong>Frontend:</strong> Angular | React | JavaScript | TypeScript | Sass | Bootstrap | Tailwind</li>
-			<li><strong>DevOps & Cloud:</strong> Azure | AWS | Terraform | Docker | Kubernetes | GitHub Actions | Security | Cryptography</li>
-		</ul> -->
-
-		<h2 style="margin-top: 2rem; font-size: 1.3rem; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem;">Experience</h2>
-		<div style="margin-bottom: 1.5rem;">
-			<h3 style="margin-bottom: 0.2rem;">Software Engineer & Tech Lead</h3>
-			<strong>Lacuna Software</strong> <span style="color: #888;">— Brasilia, DF, Brazil</span><br/>
-			<span style="color: #888;">09/2025 - Present</span>
-			<ul>
+		<h2 class="mt-10 text-2xl font-semibold border-b border-gray-300 pb-1">Experience</h2>
+		<div class="mb-6">
+			<h3 class="mb-1 text-lg font-semibold">Software Engineer & Tech Lead</h3>
+			<div><strong>Lacuna Software</strong> <span class="text-gray-500">— Brasilia, DF, Brazil</span></div>
+			<div class="text-gray-500 mb-2">09/2025 - Present</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>Led the architecture and technical direction of a multi-tenant, white-label electronic signature SaaS platform operating across multiple countries, processing millions of documents annually under strict security, auditing, and availability requirements.</li>
 				<li>Owned system design and architectural evolution, balancing scalability, consistency, and regulatory compliance across B2B and B2C multi-tenant models, and formalizing decisions through ADRs.</li>
 				<li>Designed and implemented core backend services using ASP.NET Core and EF Core, while contributing to frontend applications in Angular and ensuring reliable operation in Azure production environments.</li>
@@ -44,11 +26,12 @@ import Contacts from '../components/Contacts.astro';
 				<li>Mentored engineers and structured team processes (1:1s, performance reviews, retrospectives), raising technical maturity, autonomy, and knowledge sharing across teams.</li>
 			</ul>
 		</div>
-		<div style="margin-bottom: 1.5rem;">
-			<h3 style="margin-bottom: 0.2rem;">Software Engineer & Tech Lead</h3>
-			<strong>Trinks (Stone Group)</strong> <span style="color: #888;">— Brasilia, DF, Brazil</span><br/>
-			<span style="color: #888;">05/2024 - 09/2025</span>
-			<ul>
+        
+		<div class="mb-6">
+			<h3 class="mb-1 text-lg font-semibold">Software Engineer & Tech Lead</h3>
+			<div><strong>Trinks (Stone Group)</strong> <span class="text-gray-500">— Brasilia, DF, Brazil</span></div>
+			<div class="text-gray-500 mb-2">05/2024 - 09/2025</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>Led a team in the development and evolution of a large-scale SaaS platform for management and payments, serving thousands of establishments and millions of monthly active users, with strict scalability and reliability requirements.</li>
 				<li>Designed and implemented payment integrations with Pagar.Me and checkout flows, resulting in approximately 3× growth in transaction volume in 2025 compared to 2024.</li>
 				<li>Served as the technical reference for the team, leading technical refinements, planning, and mentoring, as well as conducting 1:1s and performance reviews to raise overall technical maturity.</li>
@@ -57,11 +40,11 @@ import Contacts from '../components/Contacts.astro';
 				<li>Designed and developed backend services using ASP.NET Core, EF Core, and NHibernate with CQRS (MediatR, MassTransit, FluentValidation), and contributed to frontend applications in React, including a shared design system distributed via NPM and documented with Storybook.</li>
 			</ul>
 		</div>
-		<div style="margin-bottom: 1.5rem;">
-			<h3 style="margin-bottom: 0.2rem;">Software Engineer & Tech Lead</h3>
-			<strong>Webvoto</strong> <span style="color: #888;">— Brasilia, DF, Brazil</span><br/>
-			<span style="color: #888;">07/2021 - 05/2024</span>
-			<ul>
+		<div class="mb-6">
+			<h3 class="mb-1 text-lg font-semibold">Software Engineer & Tech Lead</h3>
+			<div><strong>Webvoto</strong> <span class="text-gray-500">— Brasilia, DF, Brazil</span></div>
+			<div class="text-gray-500 mb-2">07/2021 - 05/2024</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>Led the design and implementation of large-scale, mission-critical electronic voting systems, supporting elections with hundreds of thousands of voters under strict legal, auditing, and availability constraints.</li>
 				<li>Owned system architecture and scalability strategy, designing high-throughput APIs with ASP.NET Core, EF Core, and SignalR to handle thousands of requests per second during peak voting periods.</li>
 				<li>Acted as technical manager for infrastructure, auditing, and delivery of high-stakes electoral processes, directly interacting with stakeholders and representing the company in multiple audit and proof-of-concept evaluations.</li>
@@ -70,53 +53,53 @@ import Contacts from '../components/Contacts.astro';
 				<li>Designed stress-testing and asynchronous processing pipelines to validate scalability in advance and enable real-time processing of millions of biometric images in short timespans without operational impact.</li>
 			</ul>
 		</div>
-		<div style="margin-bottom: 1.5rem;">
-			<h3 style="margin-bottom: 0.2rem;">Software Engineer (internship)</h3>
-			<strong>NovaWeb</strong> <span style="color: #888;">— Brasilia, DF, Brazil</span><br/>
-			<span style="color: #888;">02/2021 - 07/2021</span>
-			<ul>
+		<div class="mb-6">
+			<h3 class="mb-1 text-lg font-semibold">Software Engineer (internship)</h3>
+			<div><strong>NovaWeb</strong> <span class="text-gray-500">— Brasilia, DF, Brazil</span></div>
+			<div class="text-gray-500 mb-2">02/2021 - 07/2021</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>Contributed to backend development of a video backup and analytics platform for a TV station, handling hundreds of terabytes of media data stored in AWS S3 Glacier (Deep Archive). Built using Python (Flask) and MySQL, with automated testing based on pytest and TDD.</li>
 				<li>Designed and implemented microservices using Docker and Kubernetes, and automated deployments using Helm and GitHub Actions to support CI/CD workflows.</li>
 				<li>Developed backend services for a donation platform supporting environmental campaigns, implemented in .NET and ASP.NET Core with EF Core, deployed on Google Cloud Kubernetes Engine using a service-oriented architecture.</li>
 			</ul>
 		</div>
 
-		<h2 style="margin-top: 2rem; font-size: 1.3rem; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem;">Education</h2>
-		<div style="margin-bottom: 1.5rem;">
-			<h3 style="margin-bottom: 0.2rem;">Computer Engineering</h3>
-			<strong>University of Brasília (UnB)</strong> <span style="color: #888;">— Brasilia, DF, Brazil</span><br/>
-			<span style="color: #888;">07/2018 - 02/2025</span>
-			<ul>
+		<h2 class="mt-10 text-2xl font-semibold border-b border-gray-300 pb-1">Education</h2>
+		<div class="mb-6">
+			<h3 class="mb-1 text-lg font-semibold">Computer Engineering</h3>
+			<div><strong>University of Brasília (UnB)</strong> <span class="text-gray-500">— Brasilia, DF, Brazil</span></div>
+			<div class="text-gray-500 mb-2">07/2018 - 02/2025</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>Authored publications and presented research at national and international conferences in blockchain, distributed systems, and cryptography.</li>
-				<li>Designed and implemented cryptographic primitives for homomorphic hashing and homomorphic hiding schemes in Go (open-source project): <a href="https://github.com/titosilva/pdpr-go" target="_blank">https://github.com/titosilva/pdpr-go</a></li>
-				<li>Designed and implemented blockchain architectures and custom consensus algorithms for digital rights management systems in Go (open-source project): <a href="https://github.com/titosilva/drmchain-pos" target="_blank">https://github.com/titosilva/drmchain-pos</a></li>
+				<li>Designed and implemented cryptographic primitives for homomorphic hashing and homomorphic hiding schemes in Go (open-source project): <a href="https://github.com/titosilva/pdpr-go" class="underline text-blue-600" target="_blank">https://github.com/titosilva/pdpr-go</a></li>
+				<li>Designed and implemented blockchain architectures and custom consensus algorithms for digital rights management systems in Go (open-source project): <a href="https://github.com/titosilva/drmchain-pos" class="underline text-blue-600" target="_blank">https://github.com/titosilva/drmchain-pos</a></li>
 				<li>Served as a teaching assistant for Calculus I, delivering weekly classes, grading exams and assignments, and supporting students academically.</li>
 			</ul>
 		</div>
 
-		<h2 style="margin-top: 2rem; font-size: 1.3rem; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem;">Highlights and Recognitions</h2>
-		<ul style="margin-bottom: 1.5rem;">
+		<h2 class="mt-10 text-2xl font-semibold border-b border-gray-300 pb-1">Highlights and Recognitions</h2>
+		<ul class="mb-6 list-disc list-inside space-y-1">
 			<li>Awarded medals in national and state-level Chemistry, Mathematics, and Physics Olympiads.</li>
 			<li>King of the Derivative Award — highest prize in a regional Calculus competition.</li>
 			<li>1st Place, Regional Entry-Level Programming Marathon.</li>
 			<li>Best Paper Award, WPOS 2023.</li>
 		</ul>
 
-		<h2 style="margin-top: 2rem; font-size: 1.3rem; border-bottom: 1px solid #ccc; padding-bottom: 0.2rem;">Publications and Conferences</h2>
-		<div style="margin-bottom: 1.5rem;">
-			<strong>International Conferences</strong>
-			<ul>
+		<h2 class="mt-10 text-2xl font-semibold border-b border-gray-300 pb-1">Publications and Conferences</h2>
+		<div class="mb-6">
+			<div class="font-semibold">International Conferences</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>ICITS 2024 - International Conference on Information Technology & Systems, Chile</li>
 				<li>RECSI 2024 - Reunión Española de Criptología y Seguridad de la Información, Spain</li>
 			</ul>
-			<strong>National Conferences</strong>
-			<ul>
+			<div class="font-semibold mt-2">National Conferences</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>SBSeg 2024 - Brazilian Symposium on Information Security and Computer Systems, São Paulo, Brazil</li>
 				<li>WPOS 2023 - Workshop at University of Brasília, Brazil</li>
 				<li>WPOS 2024 - Workshop at University of Brasília, Brazil</li>
 			</ul>
-			<strong>Scientific Journals</strong>
-			<ul>
+			<div class="font-semibold mt-2">Scientific Journals</div>
+			<ul class="list-disc list-inside space-y-1">
 				<li>Journal of the Brazilian Computer Society (JBCS) — Article accepted, awaiting publication</li>
 			</ul>
 		</div>
