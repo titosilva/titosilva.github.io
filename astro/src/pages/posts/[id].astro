@@ -1,4 +1,5 @@
 ---
+import { getEntries } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from 'astro:content';
 
@@ -12,23 +13,32 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const authors = await getEntries(post.data.authors);
 const { Content } = await render(post);
 ---
 
-<Layout>
-    <div class="flex flex-col items-center py-5">
-        <span class="text-4xl font-semibold text-primary-light">
-            {post.data.title}
-        </span>
-
-        <p class="my-5">{post.data.description}</p>
-
-        <div class="flex justify-between w-full max-w-200">
-            <span class="text-sm text-gray-400">
-                {new Date(post.data.pubDate).toLocaleDateString()}
+<Layout title={post.data.minititle}>
+    <div class="flex flex-col p-5 max-w-300 self-center">
+        <div class="flex flex-col my-5">
+            <span class="text-4xl font-semibold text-primary-light">
+                {post.data.title}
             </span>
+    
+            <p class="text-sm my-5">
+                <span class="text-sm text-gray-400">
+                    {authors.map(author => author.data.name).join(', ')} |
+                    {new Date(post.data.pubDate).toLocaleDateString()} |
+                </span>
+
+                {post.data.description}
+            </p>
+    
+            <div class="flex justify-between w-full max-w-200">
+            </div>
+        </div>
+    
+        <div class="markdown">
+            <Content />
         </div>
     </div>
-
-    <Content />
 </Layout>

@@ -1,6 +1,12 @@
 ---
 import '../styles/global.css';
 import { SquareMenu, CircleX } from '@lucide/astro';
+
+interface Props {
+	title?: string;
+}
+
+const { title = "Tito Silva" } = Astro.props as Props;
 ---
 
 <!doctype html>
@@ -8,14 +14,14 @@ import { SquareMenu, CircleX } from '@lucide/astro';
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Tito Silva</title>
+		<title>{title}</title>
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css">
 	</head>
 	<body class="flex flex-col bg-primary-darkest">
 		<div class="flex justify-between p-5 max-w-300 mx-auto w-full">
