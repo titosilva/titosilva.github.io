@@ -11,6 +11,11 @@ const posts = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     authors: z.array(reference("people")),
+    og: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).optional(),
   })
 });
 

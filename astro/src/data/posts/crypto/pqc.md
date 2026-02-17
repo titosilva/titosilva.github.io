@@ -6,6 +6,9 @@ description: A brief overview on PQC for any busy developer
 pubDate: 2024-11-16
 authors:
 - titosilva
+og:
+  title: Post-quantum cryptography for devs
+  description: A brief overview on PQC for any busy developer
 ---
 
 It's been some time now since we started hearing about how quantum computers will change the world of cryptography. While there is still no quantum computer capable of breaking currently most-used public-key cryptography algorithms, which is also called a *cryptographically relevant quantum computer*, it's important to start thinking about what will happen when that day comes. This is what we call *Post-Quantum Cryptography* (PQC). As developers, we need to be prepared for that day. In this post, I will give you a brief introduction to PQC (from the viewpoint of a non-specialist, just very curious developer) and point to what are the current developments in the area. 

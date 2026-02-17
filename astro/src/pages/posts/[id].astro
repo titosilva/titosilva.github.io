@@ -17,7 +17,7 @@ const authors = await getEntries(post.data.authors);
 const { Content } = await render(post);
 ---
 
-<Layout title={post.data.minititle}>
+<Layout title={post.data.minititle} og={post.data.og}>
     <div class="flex flex-col p-5 max-w-300 self-center">
         <div class="flex flex-col my-5">
             <span class="text-4xl font-semibold text-primary-light">
