@@ -1,173 +1,133 @@
 ---
-import "../styles/global.css";
-import { SquareMenu, CircleX } from "@lucide/astro";
+import '../styles/global.css';
+import { SquareMenu, CircleX } from '@lucide/astro';
 
 interface Props {
-  title?: string;
-  og?: {
-    title?: string;
-    description?: string;
-    image?: string;
-  };
+	title?: string;
+	og?: {
+		title?: string;
+		description?: string;
+		image?: string;
+	};
 }
 
-const {
-  title = "Tito Silva",
-  og = {
-    image: "/public/og-default.png",
-  },
-} = Astro.props as Props;
+const { title = "Tito Silva", og = {} } = Astro.props as Props;
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
 
-    <meta property="og:title" content={og.title || title} />
-    <meta property="og:description" content={og.description || ""} />
-    <meta property="og:image" content={og.image || ""} />
+		<meta property="og:title" content={og.title || 'Tito Silva | Blog'} />
+		<meta property="og:description" content={og.description || 'Hi! This is my personal blog, where I share my thoughts and projects. Let\'s build something together!'} />
+		<meta property="og:image" content={og.image || 'https://titosilva.github.io/og-default.png'} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css"
-    />
-  </head>
-  <body class="flex flex-col bg-primary-darkest">
-    <div class="flex justify-between p-5 max-w-300 mx-auto w-full">
-      <a
-        class="flex md:hidden justify-center items-center text-3xl bg-primary-light text-primary-darkest rounded-md aspect-square p-1"
-        href="/"
-      >
-        <span>TS</span>
-      </a>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Vend+Sans:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css">
+	</head>
+	<body class="flex flex-col bg-primary-darkest">
+		<div class="flex justify-between p-5 max-w-300 mx-auto w-full">
+			<a class="flex md:hidden justify-center items-center text-3xl bg-primary-light text-primary-darkest rounded-md aspect-square p-1" href="/">
+				<span>TS</span>
+			</a>
 
-      <a class="hidden md:flex text-4xl text-primary-light" href="/">
-        <div
-          class="hidden md:flex justify-center items-center text-3xl bg-primary-light text-primary-darkest rounded-md aspect-square p-1"
-        >
-          <span>TS</span>
-        </div>
-        <span class="mx-3"> | </span>
-        BLOG
-      </a>
+			<a class="hidden md:flex text-4xl text-primary-light" href="/">
+				<div class="hidden md:flex justify-center items-center text-3xl bg-primary-light text-primary-darkest rounded-md aspect-square p-1">
+					<span>TS</span>
+				</div>
+				<span class="mx-3">
+					|
+				</span>
+				BLOG
+			</a>
 
-      <div class="hidden md:flex flex-row gap-5 items-center mx-8">
-        <a
-          class="text-xl hover:underline underline-offset-8 hover:text-primary-light"
-          href="/about-me"
-        >
-          /about-me
-        </a>
 
-        <a
-          class="text-xl hover:underline underline-offset-8 hover:text-primary-light"
-          href="/posts"
-        >
-          /posts
-        </a>
+			<div class="hidden md:flex flex-row gap-5 items-center mx-8">
+				<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/about-me">
+					/about-me
+				</a>
 
-        <a
-          class="text-xl hover:underline underline-offset-8 hover:text-primary-light"
-          href="/projects"
-        >
-          /projects
-        </a>
-      </div>
+				<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/posts">
+					/posts
+				</a>
 
-      <a
-        id="menuBtn"
-        class="flex md:hidden items-center justify-center text-3xl"
-      >
-        <SquareMenu size="1lh" />
-      </a>
-    </div>
+				<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/projects">
+					/projects
+				</a>
+			</div>
+			
+			<a id="menuBtn" class="flex md:hidden items-center justify-center text-3xl">
+				<SquareMenu size="1lh" />
+			</a>
+		</div>
 
-    <div
-      id="menu"
-      class="absolute w-full h-full bg-primary-darkest hidden flex-col items-center justify-center z-50 gap-5"
-    >
-      <a
-        id="closeBtn"
-        class="text-4xl hover:underline underline-offset-8 hover:text-primary-light mb-8"
-      >
-        <CircleX size="1lh" />
-      </a>
+		<div id="menu" class="absolute w-full h-full bg-primary-darkest hidden flex-col items-center justify-center z-50 gap-5">
+			<a id="closeBtn" class="text-4xl hover:underline underline-offset-8 hover:text-primary-light mb-8">
+				<CircleX size="1lh" />
+			</a>
 
-      <a
-        class="text-xl hover:underline underline-offset-8 hover:text-primary-light"
-        href="/about-me"
-      >
-        /about-me
-      </a>
+			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/about-me">
+				/about-me
+			</a>
 
-      <a
-        class="text-xl hover:underline underline-offset-8 hover:text-primary-light"
-        href="/posts"
-      >
-        /posts
-      </a>
+			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/posts">
+				/posts
+			</a>
 
-      <a
-        class="text-xl hover:underline underline-offset-8 hover:text-primary-light"
-        href="/projects"
-      >
-        /projects
-      </a>
-    </div>
+			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/projects">
+				/projects
+			</a>
+		</div>
 
-    <slot />
-  </body>
+		<slot />
+	</body>
 </html>
 
 <style>
-  html,
-  body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-  }
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
 </style>
 
 <script>
-  const displayMenu = () => {
-    const elem = document.getElementById("menu");
+	const displayMenu = () => {
+		const elem = document.getElementById("menu");
 
-    if (!elem) {
-      return;
-    }
+		if (!elem) {
+			return;
+		}
 
-    elem.classList.replace("hidden", "flex");
-  };
+		elem.classList.replace("hidden", "flex");
+	}
 
-  const hideMenu = () => {
-    const elem = document.getElementById("menu");
+	const hideMenu = () => {
+		const elem = document.getElementById("menu");
 
-    if (!elem) {
-      return;
-    }
+		if (!elem) {
+			return;
+		}
 
-    elem.classList.replace("flex", "hidden");
-  };
+		elem.classList.replace("flex", "hidden");
+	}
 
-  hideMenu();
-  const btn = document.getElementById("menuBtn");
-  btn?.addEventListener("click", () => {
-    displayMenu();
-  });
+	hideMenu();
+	const btn = document.getElementById("menuBtn");
+	btn?.addEventListener("click", () => {
+		displayMenu();
+	});
 
-  const closeBtn = document.getElementById("closeBtn");
-  closeBtn?.addEventListener("click", () => {
-    hideMenu();
-  });
+	const closeBtn = document.getElementById("closeBtn");
+	closeBtn?.addEventListener("click", () => {
+		hideMenu();
+	});
 </script>
