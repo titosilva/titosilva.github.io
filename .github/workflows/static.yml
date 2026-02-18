@@ -28,11 +28,9 @@ jobs:
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        working-directory: astro
         run: npm ci
 
       - name: Build Astro site
-        working-directory: astro
         run: npm run build
 
       - name: Upload GitHub Pages artifact
