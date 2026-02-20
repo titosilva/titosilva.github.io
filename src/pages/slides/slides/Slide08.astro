@@ -1,0 +1,18 @@
+<div class="flex flex-col p-5">
+  <span class="text-3xl font-bold mb-4 text-primary-light">
+    Release Toggles
+  </span>
+
+  <span class="text-xl">
+    Toggles utilizados para separar deploy de release, permitindo adiantar o merge e ir testando e entregando aos poucos.
+  </span>
+
+  <ul class="list-disc ml-6 mb-6 text-2xl my-5">
+    <li>Curta duração - após um tempo ficam sempre ativos</li>
+    <li>Permitem merge incremental</li>
+    <li>Devem ter data de remoção do código</li>
+    <li>Devem ser projetados com impactos em mente, não só a funcionalidade</li>
+    <li>Podem ser utilizados para Canary Releases ou técnicas de rollout gradual</li>
+    <li>Podem ser utilizados para rollout automático por data</li>
+  </ul>
+</div>

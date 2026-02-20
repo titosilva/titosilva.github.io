@@ -1,0 +1,26 @@
+<div class="flex flex-col p-5">
+  <h2 class="text-3xl font-bold mb-4 text-primary-light">Deploy vs. Release</h2>
+
+  <span class="text-xl">
+    Tudo bem, queremos adiantar o merge, mas e se a tarefa tiver <span class="text-red-500">impactos grandes</span>? 
+    E se a tarefa não estiver <span class="text-red-500">redonda o suficiente</span>?
+  </span>
+
+  <span class="text-xl my-5">
+    Vamos <span class="text-primary-light">isolar a feature</span>, escondendo a funcionalidade dos usuários e desabilitando possíveis impactos.
+  </span>
+
+  <span class="text-center my-5">
+    Desenvolver → PR → Merge → Testar → Deploy (<span class="text-primary-light">isolado</span>) → [Repete] → Release (<span class="text-primary-light">habilitado</span>)
+  </span>
+
+  <span class="text-xl my-5">
+    Assim, podemos adiantar o merge, ir testando e entregando aos poucos, e só liberar a funcionalidade quando ela estiver pronta.
+  </span>
+
+  <span class="text-xl">
+    Também é possível usar isso para fazer <span class="text-primary-light">experimentação</span>, 
+    liberando a funcionalidade para um <span class="text-primary-light">grupo específico de usuários</span> 
+    ou fazendo <span class="text-primary-light">testes A/B</span>.
+  </span>
+</div>
