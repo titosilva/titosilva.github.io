@@ -80,19 +80,8 @@ import Contacts from "./Contacts.astro";
             }, 300);
         };
 
-        const start = () => {
-            if (!timer) timer = setInterval(nextTitle, intervalMs);
-        };
+        if (!timer) timer = setInterval(nextTitle, intervalMs);
 
-        const stop = () => {
-            if (timer) clearInterval(timer);
-            timer = null;
-        };
-
-        start();
-
-        element.addEventListener("mouseenter", stop);
-        element.addEventListener("mouseleave", start);
         element.addEventListener("click", nextTitle);
     }
 </script>

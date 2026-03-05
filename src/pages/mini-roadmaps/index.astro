@@ -1,0 +1,64 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getEntries } from "astro:content";
+import { getCollection } from "astro:content";
+
+const miniRoadmap = await getCollection("miniRoadmaps");
+
+const authorsPerMiniRoadmap = await Promise.all(
+  miniRoadmap.map(async (mr) => {
+    const authors = await getEntries(mr.data.authors);
+
+    return {
+      postId: mr.id,
+      authors,
+    };
+  }),
+);
+
+const cardData = miniRoadmap.map((mr) => ({
+  url: `/mini-roadmap/${mr.id}`,
+  title: mr.data.title,
+  description: mr.data.description,
+  pubDate: mr.data.pubDate,
+  authors: authorsPerMiniRoadmap
+    .find((a) => a.postId === mr.id)
+    ?.authors.map((author) => author.data.name) || [],
+}));
+---
+
+<Layout>
+    {cardData.length === 0 && (
+        <div class="flex flex-col items-center justify-center py-20">
+            <span class="text-2xl text-gray-400">No posts found.</span>
+        </div>
+    )}
+
+    { 
+        cardData.length > 0 && (
+            <div class="flex flex-col items-center p-5">
+            {
+                cardData.map((mr) => (
+                <div class="border-2 border-primary-light rounded-md p-4 max-w-200 w-full">
+                    <span class="text-2xl font-semibold text-primary-light">
+                        {mr.title}
+                    </span>
+        
+                    <p class="my-5">{mr.description}</p>
+        
+                    <div class="flex justify-between w-full">
+                        <a href={mr.url} class="text-primary-light hover:underline underline-offset-8">
+                            Read full article >>
+                        </a>
+        
+                        <span class="text-sm text-gray-400">
+                            {new Date(mr.pubDate).toLocaleDateString()} | {mr.authors.join(", ")}
+                        </span>
+                    </div>
+                </div>
+                ))
+            }
+            </div>
+        )
+    }
+</Layout>

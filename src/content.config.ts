@@ -26,7 +26,24 @@ const people = defineCollection({
   })
 });
 
+const miniRoadmaps = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/data/mini-roadmaps" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    authors: z.array(reference("people")),
+    og: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).optional(),
+  })
+});
+
 export const collections = {
   posts,
   people,
+  miniRoadmaps,
 };
