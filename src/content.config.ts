@@ -62,9 +62,28 @@ const projects = defineCollection({
   })
 });
 
+const books = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/data/books" }),
+  schema: z.object({
+    title: z.string(),
+    minititle: z.string().optional(),
+    authors: z.array(z.string()),
+    tags: z.array(z.string()).optional(),
+    pubDate: z.coerce.date(),
+    hasPage: z.boolean().optional().default(false),
+    pinned: z.boolean().optional().default(false),
+    og: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).optional(),
+  })
+});
+
 export const collections = {
   posts,
   poems,
   people,
   projects,
+  books,
 };

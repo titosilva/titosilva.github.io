@@ -1,0 +1,47 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const books = (await getCollection('books')).filter((book) => book.data.hasPage);
+
+  return books.map(book => ({
+    params: { id: book.id },
+    props: { book },
+  }));
+}
+
+const { book } = Astro.props;
+const { Content } = await render(book);
+---
+
+<Layout title={book.data.minititle} og={book.data.og}>
+    <div class="flex flex-col p-5 max-w-300 self-center">
+        <div class="flex flex-col my-5">
+            <span class="text-4xl font-semibold text-primary-light">
+                {book.data.title}
+            </span>
+
+            <p class="text-sm my-5">
+                <span class="text-sm text-gray-400">
+                    {book.data.authors.join(', ')} |
+                    {new Date(book.data.pubDate).toLocaleDateString()}
+                </span>
+            </p>
+
+            {book.data.tags && book.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-2 mb-5">
+                    {book.data.tags.map((tag) => (
+                        <span class="text-xs px-2 py-1 border border-primary-light rounded-md text-primary-light">
+                            {tag}
+                        </span>
+                    ))}
+                </div>
+            )}
+        </div>
+
+        <div class="markdown">
+            <Content />
+        </div>
+    </div>
+</Layout>

@@ -2,6 +2,29 @@ export type Locale = "en" | "pt-br";
 
 export const locales: Locale[] = ["en", "pt-br"];
 
+// Tags authored in content frontmatter (e.g. book tags) are written in
+// Portuguese; this maps each one to its English equivalent for display.
+// Falls back to the original tag when no translation is registered.
+export const tagTranslations: Record<string, string> = {
+  "Teologia": "Theology",
+  "Evangelho": "Gospel",
+  "Cristianismo": "Christianity",
+  "Ficção": "Fiction",
+  "Clássico": "Classic",
+  "Literatura": "Literature",
+  "Terror": "Horror",
+  "Ficção Científica": "Science Fiction",
+  "Distopia": "Dystopia",
+  "Fantasia": "Fantasy",
+  "História": "History",
+  "Não-ficção": "Non-fiction",
+  "Apologética": "Apologetics",
+  "Mistério": "Mystery",
+  "Teatro": "Theater",
+  "Literatura Brasileira": "Brazilian Literature",
+  "Tudo": "Everything",
+};
+
 export const translations = {
   en: {
     home: {
@@ -34,6 +57,10 @@ export const translations = {
         'Here are some of my personal projects. You can find more of them on <a href="https://github.com/titosilva" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline underline-offset-8">my GitHub</a>.',
       empty: "No projects found.",
       viewOnGithub: "View on GitHub >>",
+    },
+    reading: {
+      empty: "No books found.",
+      myNotes: "My notes >>",
     },
     aboutMe: {
       heroSubtitle:
@@ -158,6 +185,10 @@ export const translations = {
         'Aqui estão alguns dos meus projetos pessoais. Você pode encontrar mais deles no meu <a href="https://github.com/titosilva" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline underline-offset-8">GitHub</a>.',
       empty: "Nenhum projeto encontrado.",
       viewOnGithub: "Ver no GitHub >>",
+    },
+    reading: {
+      empty: "Nenhum livro encontrado.",
+      myNotes: "Minhas anotações >>",
     },
     aboutMe: {
       heroSubtitle:
