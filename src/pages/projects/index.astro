@@ -1,0 +1,63 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const cardData = projects.map((project) => ({
+  title: project.data.title,
+  description: project.data.description,
+  descriptionPtBr: project.data.descriptionPtBr,
+  repoUrl: project.data.repoUrl,
+  tags: project.data.tags || [],
+}));
+---
+
+<Layout title="Projects">
+    <div class="flex flex-col items-center px-5 pt-5">
+        <p class="max-w-200 w-full text-center text-lg" data-i18n="projects.intro">
+            Here are some of my personal projects. You can find more of them on
+            <a href="https://github.com/titosilva" target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline underline-offset-8">my GitHub</a>.
+        </p>
+    </div>
+
+    {cardData.length === 0 && (
+        <div class="flex flex-col items-center justify-center py-20">
+            <span class="text-2xl text-gray-400" data-i18n="projects.empty">No projects found.</span>
+        </div>
+    )}
+
+    {
+        cardData.length > 0 && (
+            <div class="flex flex-col items-center p-5 gap-5">
+            {
+                cardData.map((project) => (
+                <div class="border-2 border-primary-light rounded-md p-4 max-w-200 w-full">
+                    <span class="text-2xl font-semibold text-primary-light">
+                        {project.title}
+                    </span>
+
+                    <p class="my-5" data-i18n-en={project.description} data-i18n-pt-br={project.descriptionPtBr}>{project.description}</p>
+
+                    {project.tags.length > 0 && (
+                        <div class="flex flex-wrap gap-2 mb-5">
+                            {project.tags.map((tag) => (
+                                <span class="text-xs px-2 py-1 border border-primary-light rounded-md text-primary-light">
+                                    {tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+
+                    <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" class="text-primary-light hover:underline underline-offset-8" data-i18n="projects.viewOnGithub">
+                        View on GitHub >>
+                    </a>
+                </div>
+                ))
+            }
+            </div>
+        )
+    }
+</Layout>

@@ -10,16 +10,17 @@ import Contacts from "./Contacts.astro";
     >
         <!-- Name + rotating title -->
         <div
-            class="flex flex-col items-center w-fit rounded-md border-2 border-primary-light"
+            class="flex flex-col items-center w-64 md:w-72 rounded-md border-2 border-primary-light"
         >
-            <span class="text-3xl md:text-4xl text-primary-darkest p-4 md:p-5 bg-primary-light">
+            <span class="w-full text-center text-3xl md:text-4xl text-primary-darkest p-4 md:p-5 bg-primary-light">
                 TITO SILVA
             </span>
 
             <button
                 id="title"
                 type="button"
-                class="text-primary-light text-sm md:text-base p-2 md:p-3 cursor-pointer transition-opacity duration-300"
+                data-i18n="home.role"
+                class="w-full flex items-center justify-center text-center whitespace-normal leading-snug min-h-[3.5rem] md:min-h-[4.5rem] text-primary-light text-sm md:text-base p-2 md:p-3 cursor-pointer transition-opacity duration-300"
             >
                 SOFTWARE DEVELOPER
             </button>
@@ -28,18 +29,19 @@ import Contacts from "./Contacts.astro";
         <!-- Intro text -->
         <div class="flex flex-col mt-6 md:mt-0 md:mx-5 max-w-xl">
             <span
+                data-i18n="home.greeting"
                 class="text-primary-light text-2xl md:text-4xl underline-offset-8"
             >
                 Hello, nice to meet you.
             </span>
 
-            <span class="text-2xl md:text-4xl my-3">
+            <span data-i18n="home.tagline" class="text-2xl md:text-4xl my-3">
                 Let's build something together.
             </span>
 
             <a href="/about-me" class="mt-2 inline-block">
                 <span class="underline-offset-8 hover:text-primary-light">
-                    <u>Discover more about my work</u> >>
+                    <u data-i18n="home.cta">Discover more about my work</u> >>
                 </span>
             </a>
         </div>
@@ -51,21 +53,13 @@ import Contacts from "./Contacts.astro";
 
 <!-- Rotating title logic -->
 <script>
-    const titles = [
-        "SOFTWARE ENGINEER",
-        "TECH LEAD",
-        "BRASIL!",
-        "FULLSTACK DEVELOPER",
-        "PROBLEM SOLVER",
-        "CRYPTOGRAPHY LOVER",
-        "NOT AN AI",
-        "MATH SUPERFAN",
-        "FATHER OF A LITTLE BOY",
-    ];
+    import { translations } from "../i18n/translations";
+    import { getCurrentLocale, LOCALE_CHANGE_EVENT, type Locale } from "../i18n/client";
 
     const intervalMs = 2000;
     let currentIndex = 0;
     let timer: number | null = null;
+    let locale: Locale = getCurrentLocale();
 
     const element = document.getElementById("title");
 
@@ -74,6 +68,7 @@ import Contacts from "./Contacts.astro";
             element.classList.add("opacity-0");
 
             setTimeout(() => {
+                const titles = translations[locale].home.titles;
                 currentIndex = (currentIndex + 1) % titles.length;
                 element.textContent = titles[currentIndex];
                 element.classList.remove("opacity-0");
@@ -94,6 +89,11 @@ import Contacts from "./Contacts.astro";
         element.addEventListener("mouseenter", stop);
         element.addEventListener("mouseleave", start);
         element.addEventListener("click", nextTitle);
+
+        window.addEventListener(LOCALE_CHANGE_EVENT, ((event: CustomEvent<{ locale: Locale }>) => {
+            locale = event.detail.locale;
+            currentIndex = 0;
+        }) as EventListener);
     }
 </script>
 

@@ -103,6 +103,40 @@ const otherLinks = [
 						))}
 					</div>
 				</div>
+
+				<div class="relative flex items-center">
+					<button
+						id="langBtn"
+						type="button"
+						class="flex items-center gap-1 text-xl hover:underline underline-offset-8 hover:text-primary-light cursor-pointer"
+						aria-haspopup="true"
+						aria-expanded="false"
+						aria-label="Change language"
+					>
+						<span id="langBtnLabel">lang:en</span>
+						<ChevronDown size="1em" />
+					</button>
+
+					<div
+						id="langPanel"
+						class="hidden flex-col absolute top-full left-0 mt-2 min-w-36 bg-primary-darkest border-2 border-primary-light rounded-md py-2 z-50"
+					>
+						<button
+							type="button"
+							class="lang-option flex items-center gap-2 px-4 py-2 text-lg whitespace-nowrap hover:underline underline-offset-4 hover:text-primary-light w-full text-left cursor-pointer"
+							data-lang="en"
+						>
+							lang:en
+						</button>
+						<button
+							type="button"
+							class="lang-option flex items-center gap-2 px-4 py-2 text-lg whitespace-nowrap hover:underline underline-offset-4 hover:text-primary-light w-full text-left cursor-pointer"
+							data-lang="pt-br"
+						>
+							lang:pt-br
+						</button>
+					</div>
+				</div>
 			</div>
 
 			<a id="menuBtn" class="flex md:hidden items-center justify-center text-3xl">
@@ -149,6 +183,28 @@ const otherLinks = [
 					))}
 				</div>
 			</div>
+
+			<div class="flex flex-col items-center mt-3">
+				<button
+					id="langMobileBtn"
+					type="button"
+					class="flex items-center gap-1 text-xl hover:underline underline-offset-8 hover:text-primary-light cursor-pointer"
+					aria-expanded="false"
+					aria-label="Change language"
+				>
+					<span id="langMobileBtnLabel">lang:en</span>
+					<ChevronDown size="1em" />
+				</button>
+
+				<div id="langMobilePanel" class="hidden flex-col items-center gap-3 mt-3">
+					<button type="button" class="lang-option text-lg pl-4 hover:underline underline-offset-8 hover:text-primary-light cursor-pointer" data-lang="en">
+						lang:en
+					</button>
+					<button type="button" class="lang-option text-lg pl-4 hover:underline underline-offset-8 hover:text-primary-light cursor-pointer" data-lang="pt-br">
+						lang:pt-br
+					</button>
+				</div>
+			</div>
 		</div>
 
 		<slot />
@@ -165,6 +221,10 @@ const otherLinks = [
 </style>
 
 <script>
+	import { getCurrentLocale, applyTranslations, setLocale, LOCALE_CHANGE_EVENT, type Locale } from "../i18n/client";
+
+	const labelFor = (locale: Locale) => (locale === "pt-br" ? "lang:pt-br" : "lang:en");
+
 	const displayMenu = () => {
 		const elem = document.getElementById("menu");
 
@@ -199,6 +259,31 @@ const otherLinks = [
 		}
 	});
 
+	// --- Mobile "language" accordion (inline, inside #menu overlay) ---
+	const langMobileBtn = document.getElementById("langMobileBtn");
+	const langMobilePanel = document.getElementById("langMobilePanel");
+	const langMobileBtnLabel = document.getElementById("langMobileBtnLabel");
+
+	const hideLangMobilePanel = () => {
+		if (!langMobilePanel || langMobileBtn?.getAttribute("aria-expanded") !== "true") {
+			return;
+		}
+
+		langMobilePanel.classList.replace("flex", "hidden");
+		langMobileBtn?.setAttribute("aria-expanded", "false");
+	}
+
+	langMobileBtn?.addEventListener("click", () => {
+		const isHidden = langMobilePanel?.classList.contains("hidden");
+
+		if (isHidden) {
+			langMobilePanel?.classList.replace("hidden", "flex");
+			langMobileBtn.setAttribute("aria-expanded", "true");
+		} else {
+			hideLangMobilePanel();
+		}
+	});
+
 	const hideMenu = () => {
 		const elem = document.getElementById("menu");
 
@@ -208,9 +293,10 @@ const otherLinks = [
 
 		elem.classList.replace("flex", "hidden");
 
-		// Collapse the mobile "others" accordion so it doesn't stay
-		// expanded the next time the menu is reopened.
+		// Collapse the mobile "others" and "language" accordions so they
+		// don't stay expanded the next time the menu is reopened.
 		hideOthersMobilePanel();
+		hideLangMobilePanel();
 	}
 
 	hideMenu();
@@ -259,5 +345,69 @@ const otherLinks = [
 		}
 
 		hideOthersPanel();
+	});
+
+	// --- Desktop "language" dropdown ---
+	const langBtn = document.getElementById("langBtn");
+	const langPanel = document.getElementById("langPanel");
+	const langBtnLabel = document.getElementById("langBtnLabel");
+
+	const hideLangPanel = () => {
+		if (!langPanel || langBtn?.getAttribute("aria-expanded") !== "true") {
+			return;
+		}
+
+		langPanel.classList.replace("flex", "hidden");
+		langBtn?.setAttribute("aria-expanded", "false");
+	}
+
+	langBtn?.addEventListener("click", (event) => {
+		event.stopPropagation();
+		const isHidden = langPanel?.classList.contains("hidden");
+
+		if (isHidden) {
+			langPanel?.classList.replace("hidden", "flex");
+			langBtn.setAttribute("aria-expanded", "true");
+		} else {
+			hideLangPanel();
+		}
+	});
+
+	document.addEventListener("click", (event) => {
+		if (!langPanel || langPanel.classList.contains("hidden")) {
+			return;
+		}
+
+		if (langBtn?.contains(event.target as Node) || langPanel.contains(event.target as Node)) {
+			return;
+		}
+
+		hideLangPanel();
+	});
+
+	// --- Language selection (shared between desktop and mobile triggers) ---
+	const updateLangLabels = (locale: Locale) => {
+		const label = labelFor(locale);
+		if (langBtnLabel) langBtnLabel.textContent = label;
+		if (langMobileBtnLabel) langMobileBtnLabel.textContent = label;
+	}
+
+	document.querySelectorAll<HTMLButtonElement>(".lang-option").forEach((option) => {
+		option.addEventListener("click", () => {
+			const locale = option.dataset.lang === "pt-br" ? "pt-br" : "en";
+			setLocale(locale);
+			updateLangLabels(locale);
+			hideLangPanel();
+			hideLangMobilePanel();
+		});
+	});
+
+	const initialLocale = getCurrentLocale();
+	applyTranslations(initialLocale);
+	updateLangLabels(initialLocale);
+
+	window.addEventListener(LOCALE_CHANGE_EVENT, () => {
+		hideLangPanel();
+		hideLangMobilePanel();
 	});
 </script>
