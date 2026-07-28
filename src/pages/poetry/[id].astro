@@ -1,0 +1,44 @@
+---
+import { getEntries } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const poems = await getCollection('poems');
+
+  return poems.map(poem => ({
+    params: { id: poem.id },
+    props: { poem },
+  }));
+}
+
+const { poem } = Astro.props;
+const authors = await getEntries(poem.data.authors);
+const { Content } = await render(poem);
+---
+
+<Layout title={poem.data.minititle} og={poem.data.og}>
+    <div class="flex flex-col p-5 max-w-300 self-center">
+        <div class="flex flex-col my-5">
+            <span class="text-4xl font-semibold text-primary-light">
+                {poem.data.title}
+            </span>
+
+            <p class="text-sm my-5">
+                <span class="text-sm text-gray-400">
+                    {authors.map(author => author.data.name).join(', ')} |
+                    {new Date(poem.data.pubDate).toLocaleDateString()} |
+                </span>
+
+                {poem.data.description}
+            </p>
+
+            <div class="flex justify-between w-full max-w-200">
+            </div>
+        </div>
+
+        <div class="poem">
+            <Content />
+        </div>
+    </div>
+</Layout>

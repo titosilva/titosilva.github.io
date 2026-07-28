@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SquareMenu, CircleX } from '@lucide/astro';
+import { SquareMenu, CircleX, ChevronDown } from '@lucide/astro';
 
 interface Props {
 	title?: string;
@@ -13,6 +13,12 @@ interface Props {
 
 const { title = "Tito Silva", og = {} } = Astro.props as Props;
 const renderDate = new Date().toISOString();
+
+// Single source of truth for the "others" dropdown/accordion contents.
+// Add more entries here later - both desktop and mobile menus render from this list.
+const otherLinks = [
+	{ label: "poetry", href: "/poetry" },
+];
 ---
 
 <!doctype html>
@@ -70,8 +76,35 @@ const renderDate = new Date().toISOString();
 				<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/projects">
 					/projects
 				</a>
+
+				<div class="relative flex items-center">
+					<button
+						id="othersBtn"
+						type="button"
+						class="flex items-center gap-1 text-xl hover:underline underline-offset-8 hover:text-primary-light cursor-pointer"
+						aria-haspopup="true"
+						aria-expanded="false"
+					>
+						/others
+						<ChevronDown size="1em" />
+					</button>
+
+					<div
+						id="othersPanel"
+						class="hidden flex-col absolute top-full left-0 mt-2 min-w-40 bg-primary-darkest border-2 border-primary-light rounded-md py-2 z-50"
+					>
+						{otherLinks.map((link) => (
+							<a
+								href={link.href}
+								class="px-4 py-2 text-lg whitespace-nowrap hover:underline underline-offset-4 hover:text-primary-light"
+							>
+								/{link.label}
+							</a>
+						))}
+					</div>
+				</div>
 			</div>
-			
+
 			<a id="menuBtn" class="flex md:hidden items-center justify-center text-3xl">
 				<SquareMenu size="1lh" />
 			</a>
@@ -93,6 +126,29 @@ const renderDate = new Date().toISOString();
 			<a class="text-xl hover:underline underline-offset-8 hover:text-primary-light" href="/projects">
 				/projects
 			</a>
+
+			<div class="flex flex-col items-center">
+				<button
+					id="othersMobileBtn"
+					type="button"
+					class="flex items-center gap-1 text-xl hover:underline underline-offset-8 hover:text-primary-light cursor-pointer"
+					aria-expanded="false"
+				>
+					/others
+					<ChevronDown size="1em" />
+				</button>
+
+				<div id="othersMobilePanel" class="hidden flex-col items-center gap-3 mt-3">
+					{otherLinks.map((link) => (
+						<a
+							href={link.href}
+							class="text-lg pl-4 hover:underline underline-offset-8 hover:text-primary-light"
+						>
+							/{link.label}
+						</a>
+					))}
+				</div>
+			</div>
 		</div>
 
 		<slot />
@@ -119,6 +175,30 @@ const renderDate = new Date().toISOString();
 		elem.classList.replace("hidden", "flex");
 	}
 
+	// --- Mobile "others" accordion (inline, inside #menu overlay) ---
+	const othersMobileBtn = document.getElementById("othersMobileBtn");
+	const othersMobilePanel = document.getElementById("othersMobilePanel");
+
+	const hideOthersMobilePanel = () => {
+		if (!othersMobilePanel || othersMobileBtn?.getAttribute("aria-expanded") !== "true") {
+			return;
+		}
+
+		othersMobilePanel.classList.replace("flex", "hidden");
+		othersMobileBtn?.setAttribute("aria-expanded", "false");
+	}
+
+	othersMobileBtn?.addEventListener("click", () => {
+		const isHidden = othersMobilePanel?.classList.contains("hidden");
+
+		if (isHidden) {
+			othersMobilePanel?.classList.replace("hidden", "flex");
+			othersMobileBtn.setAttribute("aria-expanded", "true");
+		} else {
+			hideOthersMobilePanel();
+		}
+	});
+
 	const hideMenu = () => {
 		const elem = document.getElementById("menu");
 
@@ -127,6 +207,10 @@ const renderDate = new Date().toISOString();
 		}
 
 		elem.classList.replace("flex", "hidden");
+
+		// Collapse the mobile "others" accordion so it doesn't stay
+		// expanded the next time the menu is reopened.
+		hideOthersMobilePanel();
 	}
 
 	hideMenu();
@@ -138,5 +222,42 @@ const renderDate = new Date().toISOString();
 	const closeBtn = document.getElementById("closeBtn");
 	closeBtn?.addEventListener("click", () => {
 		hideMenu();
+	});
+
+	// --- Desktop "others" dropdown ---
+	const othersBtn = document.getElementById("othersBtn");
+	const othersPanel = document.getElementById("othersPanel");
+
+	const hideOthersPanel = () => {
+		if (!othersPanel || othersBtn?.getAttribute("aria-expanded") !== "true") {
+			return;
+		}
+
+		othersPanel.classList.replace("flex", "hidden");
+		othersBtn?.setAttribute("aria-expanded", "false");
+	}
+
+	othersBtn?.addEventListener("click", (event) => {
+		event.stopPropagation();
+		const isHidden = othersPanel?.classList.contains("hidden");
+
+		if (isHidden) {
+			othersPanel?.classList.replace("hidden", "flex");
+			othersBtn.setAttribute("aria-expanded", "true");
+		} else {
+			hideOthersPanel();
+		}
+	});
+
+	document.addEventListener("click", (event) => {
+		if (!othersPanel || othersPanel.classList.contains("hidden")) {
+			return;
+		}
+
+		if (othersBtn?.contains(event.target as Node) || othersPanel.contains(event.target as Node)) {
+			return;
+		}
+
+		hideOthersPanel();
 	});
 </script>

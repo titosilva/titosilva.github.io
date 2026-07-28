@@ -1,0 +1,66 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getEntries } from "astro:content";
+import { getCollection } from "astro:content";
+
+const poems = (await getCollection("poems")).sort(
+  (a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+const authorsPerPoem = await Promise.all(
+  poems.map(async (poem) => {
+    const authors = await getEntries(poem.data.authors);
+
+    return {
+      poemId: poem.id,
+      authors,
+    };
+  }),
+);
+
+const cardData = poems.map((poem) => ({
+  url: `/poetry/${poem.id}`,
+  title: poem.data.title,
+  description: poem.data.description,
+  pubDate: poem.data.pubDate,
+  authors: authorsPerPoem
+    .find((a) => a.poemId === poem.id)
+    ?.authors.map((author) => author.data.name) || [],
+}));
+---
+
+<Layout>
+    {cardData.length === 0 && (
+        <div class="flex flex-col items-center justify-center py-20">
+            <span class="text-2xl text-gray-400">No poems found.</span>
+        </div>
+    )}
+
+    {
+        cardData.length > 0 && (
+            <div class="flex flex-col items-center p-5">
+            {
+                cardData.map((poem) => (
+                <div class="border-2 border-primary-light rounded-md p-4 max-w-200 w-full">
+                    <span class="text-2xl font-semibold text-primary-light">
+                        {poem.title}
+                    </span>
+
+                    <p class="my-5">{poem.description}</p>
+
+                    <div class="flex justify-between w-full">
+                        <a href={poem.url} class="text-primary-light hover:underline underline-offset-8">
+                            Read full poem >>
+                        </a>
+
+                        <span class="text-sm text-gray-400">
+                            {new Date(poem.pubDate).toLocaleDateString()} | {poem.authors.join(", ")}
+                        </span>
+                    </div>
+                </div>
+                ))
+            }
+            </div>
+        )
+    }
+</Layout>

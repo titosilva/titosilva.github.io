@@ -19,6 +19,23 @@ const posts = defineCollection({
   })
 });
 
+const poems = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/data/poems" }),
+  schema: z.object({
+    title: z.string(),
+    minititle: z.string().optional(),
+    description: z.string(),
+    pubDate: z.coerce.date(),
+    updatedDate: z.coerce.date().optional(),
+    authors: z.array(reference("people")),
+    og: z.object({
+      title: z.string().optional(),
+      description: z.string().optional(),
+      image: z.string().optional(),
+    }).optional(),
+  })
+});
+
 const people = defineCollection({
   loader: glob({ pattern: "**/*.json", base: "./src/data/people" }),
   schema: z.object({
@@ -28,5 +45,6 @@ const people = defineCollection({
 
 export const collections = {
   posts,
+  poems,
   people,
 };

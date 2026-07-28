@@ -34,4 +34,21 @@
         text-decoration: underline;
         text-underline-offset: calc(var(--spacing));
     }
+
+    .poem p {
+        font-size: var(--text-base);
+        font-style: italic;
+        line-height: 1.9;
+        margin-bottom: calc(var(--spacing) * 6);
+    }
+
+    .poem p:last-child {
+        margin-bottom: 0;
+    }
+
+    .poem a {
+        color: var(--color-primary-light);
+        text-decoration: underline;
+        text-underline-offset: calc(var(--spacing));
+    }
 }
