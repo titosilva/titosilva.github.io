@@ -10,6 +10,9 @@ tags:
 pubDate: 2026-07-28
 category: christian
 hasPage: true
+og:
+  title: O Poder do Evangelho e sua Mensagem
+  description: Minhas anotações sobre o livro de Paul Washer acerca do poder e da centralidade do evangelho na vida cristã.
 ---
 
 # Capítulo 1

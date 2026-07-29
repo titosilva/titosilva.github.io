@@ -5,6 +5,9 @@ description: Um poema sobre um amor que atravessa o tempo, insistente e persiste
 pubDate: 2026-07-09
 authors:
 - titosilva
+og:
+  title: Amor que insiste e persiste
+  description: Um poema sobre um amor que atravessa o tempo, insistente e persistente.
 ---
 
 De todas as cores,  
