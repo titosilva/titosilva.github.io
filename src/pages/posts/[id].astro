@@ -15,9 +15,14 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const authors = await getEntries(post.data.authors);
 const { Content } = await render(post);
+
+const og = {
+  ...post.data.og,
+  image: post.data.og?.image ?? new URL(`/og/posts/${post.id}.png`, Astro.site).toString(),
+};
 ---
 
-<Layout title={post.data.minititle} og={post.data.og}>
+<Layout title={post.data.minititle} og={og}>
     <div class="flex flex-col p-5 max-w-300 self-center">
         <div class="flex flex-col my-5">
             <span class="text-4xl font-semibold text-primary-light">
