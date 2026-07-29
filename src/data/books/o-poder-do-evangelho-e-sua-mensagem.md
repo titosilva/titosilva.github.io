@@ -38,3 +38,32 @@ O evangelho jamais deve ser modificado ou amenizado para atrair e agradar as mul
 Devemos pregar essa mensagem, mesmo sendo loucura aos homens, crendo que é o Espírito Santo quem convence, e não nós. O evangelho, o chamado ao arrependimento e à fé, são o alimento sólido que deve ser apresentado às pessoas, crendo que pela ação do próprio Deus é que passarão a reconhecer o valor dessa mensagem.
 
 Em qualquer tempo, e em qualquer sociedade, sempre foi e sempre será assim. Mas este é o meio escolhido por Deus, e precisamos nos levantar e crer, falando com convicção dos decretos do próprio Deus.
+
+# Capítulo 2
+
+Também vos notifico, irmãos, o evangelho que já vos tenho anunciado; o qual também recebestes, e no qual também permaneceis.
+1 Coríntios 15.1
+
+Assim como a igreja em Corinto, nós precisamos receber e estar firmes sobre o evangelho como nosso fundamento para estarmos corretos diante de Deus. Mas receber o evangelho é rejeitar o mundo completamente, pois não há afinidade entre os dois. 
+
+É "rejeitar tudo o que pode ser visto com os olhos e, em troca, segurar em suas mãos tudo o que não pode ser visto." É arriscar abandonar tudo para seguir completamente a convicção de que Cristo é o Filho de Deus e o Salvador do mundo, se agarrando a uma esperança que não se pode tocar por meio da fé.
+
+A quem compreender verdadeiramente essa verdade sobre o evangelho e recebê-lo, também caberá um desagrado completo por qualquer confiança que não seja Cristo. Nem mesmo as suas próprias boas obras poderão gerar qualquer convicção de salvação, e será necessário matar o próprio ego e viver uma nova vida em reconhecimento de suas limitações e entrega completa à identidade e benefícios dados por Cristo.
+
+Além disso, receber verdadeiramente o evangelho é reafirmar e viver de acordo com a completa soberania de Cristo. Cristo é o Senhor, e a quem quiser os benefícios do evangelho, é necessário abdicar autonomia e governo e entregar aos pés desse Senhor. Isso significa reconhecer e aceitar que Jesus, o mesmo que convida os cansados a si mesmo, também pode pedir para que percamos a nossa vida para serví-lo no nosso mundo cheio de pecado.
+
+Rogo-vos, pois, irmãos, pela compaixão de Deus, que apresenteis os vossos corpos em sacrifício vivo, santo e agradável a Deus, que é o vosso culto racional.
+Romanos 12:1
+
+Quem recebe verdadeiramente o evangelho também não o reconhece como um apêndice à sua vida ordinária, como uma parte a mais que deve ser agregada para atingir certos objetivos. Pelo contrário, o evangelho se torna completamente o objetivo, e substitui qualquer outra ambição.
+
+Porque aquele que quiser salvar a sua vida, perdê-la-á, e quem perder a sua vida por amor de mim, achá-la-á.
+Mateus 16:25
+
+Portanto, receber o evangelho é tomar Cristo como o único alimento verdadeiro, a única fonte de sustentação para o homem. É necessário que o pregador não só aponte para o arrependimento, mas também para a recepção dessa nova natureza que deseja em todo tempo encontrar sua completude e satisfação tão somente no Senhor. 
+
+Uma fé bíblica afirmará que o crente só pode ser considerado justo diante de Deus por causa do Evangelho, por meio de Cristo, pois ao olhar para dentro de si, qualquer homem sensato reconhecerá sua indignidade para se apresentar diante de um Deus justo. Diante dessa realidade, o cristão verdadeiro abandona a justiça própria para ser justificado pela fé, se gloriando em Cristo. 
+
+Nesse momento, o crente se firma em Cristo como a sua Rocha, e assim devemos nos firmar no evangelho. É possível que muitas coisas mudem na vida e mentalidade de um cristão, incluindo opiniões sobre aspectos menores de teologia; porém quem verdadeiramente receber o evangelho estará para sempre firme nele, confiando completamente em Cristo.
+
+Não devemos jamais negociar esses princípios, pois aí está uma grande armadilha de Satanás para a fé. Quando o acusador tentar nos fazer duvidar dessa esperança, trazendo a culpa diante dos nossos pecados, devemos nos firmar no evangelho; e da mesma forma, quando nossas próprias obras forem apresentadas como dignas de recompensa, devemos rejeitar qualquer forma de autoconfiança. 
