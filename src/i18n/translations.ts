@@ -23,6 +23,7 @@ export const tagTranslations: Record<string, string> = {
   "Teatro": "Theater",
   "Literatura Brasileira": "Brazilian Literature",
   "Tudo": "Everything",
+  "Filosofia": "Philosophy",
 };
 
 export const translations = {

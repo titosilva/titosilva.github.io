@@ -8,4 +8,5 @@ tags:
 - Ficção Científica
 - Clássico
 pubDate: 2026-07-21
+category: popular
 ---

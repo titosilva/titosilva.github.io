@@ -8,4 +8,5 @@ tags:
 - Teatro
 - Literatura Brasileira
 pubDate: 2026-06-26
+category: popular
 ---

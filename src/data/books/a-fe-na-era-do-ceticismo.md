@@ -8,4 +8,5 @@ tags:
 - Teologia
 - Apologética
 pubDate: 2026-07-07
+category: christian
 ---

@@ -7,4 +7,5 @@ tags:
 - Clássico
 - Literatura Brasileira
 pubDate: 2026-06-25
+category: dense
 ---

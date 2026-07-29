@@ -7,4 +7,5 @@ tags:
 - Cristianismo
 - Teologia
 pubDate: 2026-07-10
+category: christian
 ---

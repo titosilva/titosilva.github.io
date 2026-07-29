@@ -6,4 +6,5 @@ authors:
 tags:
 - Cristianismo
 pubDate: 2026-07-06
+category: christian
 ---

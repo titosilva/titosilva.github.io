@@ -8,4 +8,5 @@ tags:
 - Distopia
 - Clássico
 pubDate: 2026-07-19
+category: dense
 ---

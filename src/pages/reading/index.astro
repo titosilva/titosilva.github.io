@@ -3,9 +3,18 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import { tagTranslations } from "../../i18n/translations";
 
+const categoryOrder: Record<string, number> = { christian: 0, dense: 1, popular: 2 };
+
 const books = (await getCollection("books")).sort((a, b) => {
   if (a.data.pinned !== b.data.pinned) {
     return a.data.pinned ? -1 : 1;
+  }
+
+  const categoryDiff =
+    (categoryOrder[a.data.category ?? ""] ?? 99) - (categoryOrder[b.data.category ?? ""] ?? 99);
+
+  if (categoryDiff !== 0) {
+    return categoryDiff;
   }
 
   return new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime();
@@ -28,11 +37,11 @@ const cardData = books.map((book) => ({
 
     {
         cardData.length > 0 && (
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-5 max-w-300 mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-5 max-w-300 mx-auto">
             {
                 cardData.map((book) => (
-                    <div class="flex flex-col aspect-square border-2 border-primary-light rounded-md p-3">
-                        <span class="text-base font-semibold text-primary-light flex-1">
+                    <div class="flex flex-col border-2 border-primary-light rounded-md p-3">
+                        <span class="text-base font-semibold text-primary-light">
                             {book.title}
                         </span>
 

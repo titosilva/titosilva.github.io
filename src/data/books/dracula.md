@@ -8,4 +8,5 @@ tags:
 - Clássico
 - Terror
 pubDate: 2026-07-27
+category: popular
 ---

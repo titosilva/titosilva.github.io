@@ -8,4 +8,5 @@ tags:
 - Teologia
 - Evangelho
 pubDate: 2026-07-08
+category: christian
 ---

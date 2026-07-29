@@ -7,4 +7,5 @@ tags:
 - Ficção
 - Fantasia
 pubDate: 2026-07-14
+category: popular
 ---

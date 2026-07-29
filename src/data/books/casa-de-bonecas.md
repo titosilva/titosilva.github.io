@@ -7,4 +7,5 @@ tags:
 - Clássico
 - Teatro
 pubDate: 2026-06-27
+category: dense
 ---

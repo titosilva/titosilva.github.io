@@ -8,4 +8,5 @@ tags:
 - Clássico
 - Literatura
 pubDate: 2026-07-28
+category: dense
 ---

@@ -7,4 +7,5 @@ tags:
 - História
 - Não-ficção
 pubDate: 2026-07-24
+category: popular
 ---

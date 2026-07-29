@@ -72,6 +72,7 @@ const books = defineCollection({
     pubDate: z.coerce.date(),
     hasPage: z.boolean().optional().default(false),
     pinned: z.boolean().optional().default(false),
+    category: z.enum(["christian", "dense", "popular"]).optional(),
     og: z.object({
       title: z.string().optional(),
       description: z.string().optional(),

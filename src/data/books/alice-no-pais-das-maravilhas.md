@@ -8,4 +8,5 @@ tags:
 - Clássico
 - Fantasia
 pubDate: 2026-07-01
+category: popular
 ---

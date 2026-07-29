@@ -8,4 +8,5 @@ tags:
 - Clássico
 - Mistério
 pubDate: 2026-07-02
+category: popular
 ---

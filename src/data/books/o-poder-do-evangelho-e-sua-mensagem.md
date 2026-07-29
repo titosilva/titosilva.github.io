@@ -8,6 +8,7 @@ tags:
 - Evangelho
 - Cristianismo
 pubDate: 2026-07-28
+category: christian
 hasPage: true
 ---
 
