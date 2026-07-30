@@ -20,9 +20,9 @@ const COLORS = {
 
 // Longer titles need a smaller font so they still fit within the fixed 1200x630 canvas.
 function titleFontSize(title: string) {
-  if (title.length > 70) return 44;
-  if (title.length > 45) return 54;
-  return 64;
+  if (title.length > 70) return 51;
+  if (title.length > 45) return 62;
+  return 74;
 }
 
 export interface OgImageOptions {
@@ -58,12 +58,12 @@ export async function renderOgImage({ eyebrow, title }: OgImageOptions): Promise
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      width: 64,
-                      height: 64,
-                      borderRadius: 14,
+                      width: 74,
+                      height: 74,
+                      borderRadius: 16,
                       backgroundColor: COLORS.primary,
                       color: COLORS.bg,
-                      fontSize: 32,
+                      fontSize: 37,
                       fontWeight: 700,
                     },
                     children: 'TS',
@@ -72,7 +72,7 @@ export async function renderOgImage({ eyebrow, title }: OgImageOptions): Promise
                 {
                   type: 'div',
                   props: {
-                    style: { display: 'flex', fontSize: 30, fontWeight: 600, color: COLORS.primary },
+                    style: { display: 'flex', fontSize: 35, fontWeight: 600, color: COLORS.primary },
                     children: "Tito Silva's Blog",
                   },
                 },
@@ -87,7 +87,7 @@ export async function renderOgImage({ eyebrow, title }: OgImageOptions): Promise
                 {
                   type: 'div',
                   props: {
-                    style: { display: 'flex', fontSize: 26, fontWeight: 600, color: COLORS.primary },
+                    style: { display: 'flex', fontSize: 30, fontWeight: 600, color: COLORS.primary },
                     children: eyebrow,
                   },
                 },
@@ -110,7 +110,7 @@ export async function renderOgImage({ eyebrow, title }: OgImageOptions): Promise
           {
             type: 'div',
             props: {
-              style: { display: 'flex', fontSize: 22, fontWeight: 400, color: COLORS.gray },
+              style: { display: 'flex', fontSize: 25, fontWeight: 400, color: COLORS.gray },
               children: 'titosilva.github.io',
             },
           },
