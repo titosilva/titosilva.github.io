@@ -1,0 +1,17 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import BichoDoDia from "../../components/BichoDoDia.vue";
+---
+
+<Layout
+  title="Bicho do Dia"
+  og={{
+    title: "Bicho do Dia — um Wordle para veterinários e biólogos",
+    description:
+      "Descubra o organismo do dia comparando características técnicas de biologia. Sem limite de chutes!",
+  }}
+>
+  <main class="flex flex-col items-center px-2 pt-2 w-full">
+    <BichoDoDia client:only="vue" />
+  </main>
+</Layout>
