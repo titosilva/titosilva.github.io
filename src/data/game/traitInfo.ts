@@ -194,9 +194,9 @@ export const TRAIT_INFO: Record<string, TraitInfo> = {
     descPt: "O principal produto nitrogenado excretado.",
     descEn: "The main nitrogenous waste excreted.",
     values: [
-      { value: "Ureotélico", glossPt: "Excreta ureia (mamíferos, anfíbios).", glossEn: "Excretes urea (mammals, amphibians)." },
-      { value: "Uricotélico", glossPt: "Excreta ácido úrico (aves, répteis, insetos).", glossEn: "Excretes uric acid (birds, reptiles, insects)." },
-      { value: "Amoniotélico", glossPt: "Excreta amônia (peixes ósseos, muitos aquáticos).", glossEn: "Excretes ammonia (bony fish, many aquatics)." },
+      { value: "Ureotélico", glossPt: "Excreta ureia como principal composto nitrogenado.", glossEn: "Excretes urea as its main nitrogenous compound." },
+      { value: "Uricotélico", glossPt: "Excreta ácido úrico como principal composto nitrogenado.", glossEn: "Excretes uric acid as its main nitrogenous compound." },
+      { value: "Amoniotélico", glossPt: "Excreta amônia como principal composto nitrogenado.", glossEn: "Excretes ammonia as its main nitrogenous compound." },
       NA,
     ],
   },

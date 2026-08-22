@@ -5,13 +5,16 @@ import { PLAYABLE } from "../data/game/animals";
 import { TRAITS, FREE_HINT_KEY } from "../data/game/traits";
 import { TRAIT_INFO } from "../data/game/traitInfo";
 import {
-  buildShare,
+  bumpStreak,
   evaluateGuess,
   localDateString,
   lockedReveals,
   pickDaily,
   revealValue,
+  type Streak,
 } from "../data/game/engine";
+
+const GAME_URL = "https://titosilva.github.io/jogo";
 
 // --- i18n mínimo para o "chrome" do jogo (os termos biológicos ficam em PT) ---
 type Locale = "en" | "pt-br";
@@ -36,6 +39,9 @@ const T = {
     yourGuesses: "Seus chutes",
     won: "Acertou! 🎉",
     wonIn: (n: number) => `Você descobriu em ${n} ${n === 1 ? "chute" : "chutes"}.`,
+    streakLine: (n: number) => `Sequência: ${n} ${n === 1 ? "dia" : "dias"} 🔥`,
+    shareSolvedIn: (n: number) => `Resolvido em ${n} ${n === 1 ? "tentativa" : "tentativas"}.`,
+    shareTitle: "Bicho do Dia",
     share: "Compartilhar",
     copied: "Copiado!",
     hidden: "?",
@@ -65,6 +71,9 @@ const T = {
     yourGuesses: "Your guesses",
     won: "You got it! 🎉",
     wonIn: (n: number) => `You found it in ${n} ${n === 1 ? "guess" : "guesses"}.`,
+    streakLine: (n: number) => `Streak: ${n} ${n === 1 ? "day" : "days"} 🔥`,
+    shareSolvedIn: (n: number) => `Solved in ${n} ${n === 1 ? "guess" : "guesses"}.`,
+    shareTitle: "Animal of the Day",
     share: "Share",
     copied: "Copied!",
     hidden: "?",
@@ -181,6 +190,31 @@ function load() {
   }
 }
 
+// --- Sequência (streak) de dias resolvidos ---
+const STATS_KEY = "bicho-do-dia:stats";
+const streak = ref(0);
+
+function loadStats(): Streak {
+  try {
+    const raw = localStorage.getItem(STATS_KEY);
+    if (raw) return JSON.parse(raw) as Streak;
+  } catch {
+    /* ignore */
+  }
+  return { lastWinDate: null, streak: 0 };
+}
+
+/** Registra (idempotente) a vitória de hoje e atualiza a sequência. */
+function recordWin() {
+  const next = bumpStreak(loadStats(), dateStr);
+  try {
+    localStorage.setItem(STATS_KEY, JSON.stringify(next));
+  } catch {
+    /* ignore */
+  }
+  streak.value = next.streak;
+}
+
 // --- Ações ---
 function submitGuess(animal?: Animal) {
   message.value = "";
@@ -203,6 +237,7 @@ function submitGuess(animal?: Animal) {
   highlight.value = 0;
   showSuggestions.value = false;
   save();
+  if (picked.id === target.id) recordWin();
 }
 
 function onKeydown(e: KeyboardEvent) {
@@ -220,7 +255,13 @@ function onKeydown(e: KeyboardEvent) {
 }
 
 async function share() {
-  const text = buildShare(results.value, dateStr);
+  const lines = [
+    `${t.value.shareTitle} — ${dateStr}`,
+    t.value.shareSolvedIn(results.value.length),
+  ];
+  if (streak.value > 0) lines.push(t.value.streakLine(streak.value));
+  lines.push(GAME_URL);
+  const text = lines.join("\n");
   try {
     await navigator.clipboard.writeText(text);
     copied.value = true;
@@ -256,6 +297,9 @@ onMounted(() => {
     if (e.key === "Escape") closeInfo();
   });
   load();
+  // Se o jogo de hoje já estava resolvido, garante a sequência carregada.
+  if (solved.value) recordWin();
+  else streak.value = loadStats().streak;
 });
 </script>
 
@@ -286,6 +330,7 @@ onMounted(() => {
         <em class="text-white/70">({{ target.nomeCientifico }})</em>
       </p>
       <p class="text-white/80">{{ t.wonIn(results.length) }}</p>
+      <p v-if="streak > 0" class="text-white/80">{{ t.streakLine(streak) }}</p>
       <button
         class="mt-3 px-4 py-2 rounded-md bg-secondary-light text-primary-darkest font-semibold cursor-pointer hover:opacity-90"
         @click="share"
