@@ -104,15 +104,19 @@ const normalize = (s: string) =>
 
 const suggestions = computed<Animal[]>(() => {
   const q = normalize(query.value);
-  if (!q) return [];
-  return pool
+  const available = pool
     .filter((a) => !guessIds.value.includes(a.id))
-    .filter(
-      (a) =>
-        normalize(a.nomeComum).includes(q) ||
-        normalize(a.nomeCientifico).includes(q),
-    )
-    .slice(0, 8);
+    .sort((a, b) => a.nomeComum.localeCompare(b.nomeComum, "pt-BR"));
+
+  // Input focado mas vazio: mostra todas as espécies cadastradas, para a
+  // pessoa conhecer o repertório e facilitar os chutes.
+  if (!q) return available;
+
+  return available.filter(
+    (a) =>
+      normalize(a.nomeComum).includes(q) ||
+      normalize(a.nomeCientifico).includes(q),
+  );
 });
 
 // --- Persistência (localStorage, por data) ---
