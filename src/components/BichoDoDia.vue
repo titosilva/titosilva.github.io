@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from "vue";
 import type { Animal, MatchState } from "../data/game/types";
 import { PLAYABLE } from "../data/game/animals";
 import { TRAITS, FREE_HINT_KEY } from "../data/game/traits";
+import { TRAIT_INFO } from "../data/game/traitInfo";
 import {
   buildShare,
   evaluateGuess,
@@ -40,6 +41,11 @@ const T = {
     hidden: "?",
     already: "Você já chutou essa espécie.",
     notFound: "Espécie não encontrada na lista.",
+    report: "Reportar problema",
+    reportHint: "Encontrou um bug ou erro conceitual? Reporte no GitHub.",
+    possibleValues: "Valores possíveis",
+    close: "Fechar",
+    helpFor: "O que é",
   },
   en: {
     title: "Animal of the Day",
@@ -64,6 +70,11 @@ const T = {
     hidden: "?",
     already: "You already guessed that species.",
     notFound: "Species not found in the list.",
+    report: "Report a problem",
+    reportHint: "Found a bug or a conceptual error? Report it on GitHub.",
+    possibleValues: "Possible values",
+    close: "Close",
+    helpFor: "What is",
   },
 } as const;
 
@@ -83,6 +94,40 @@ const highlight = ref(0);
 const showSuggestions = ref(false);
 const message = ref("");
 const copied = ref(false);
+
+// Característica cuja dialog de ajuda está aberta (null = fechada).
+const infoKey = ref<string | null>(null);
+const infoDef = computed(() => TRAITS.find((d) => d.key === infoKey.value) ?? null);
+const infoData = computed(() => (infoKey.value ? TRAIT_INFO[infoKey.value] : null));
+
+function openInfo(key: string) {
+  infoKey.value = key;
+}
+function closeInfo() {
+  infoKey.value = null;
+}
+
+// --- Reportar problema (leva para a criação de issue no GitHub) ---
+const REPORT_BASE = "https://github.com/titosilva/titosilva.github.io/issues/new";
+
+function reportUrl(animal?: Animal): string {
+  const title = animal
+    ? `[Bicho do Dia] Problema em ${animal.nomeComum} (${animal.nomeCientifico})`
+    : "[Bicho do Dia] Reportar problema";
+  const lines = [
+    "Tipo de problema: ( ) bug  ( ) erro conceitual/biológico",
+    "",
+    animal ? `Espécie: ${animal.nomeComum} (${animal.nomeCientifico}) — id: ${animal.id}` : "Espécie: ",
+    "Característica envolvida: ",
+    "",
+    "Descrição do problema:",
+    "",
+    "",
+    `— reportado a partir do jogo em ${dateStr}`,
+  ];
+  const params = new URLSearchParams({ title, body: lines.join("\n") });
+  return `${REPORT_BASE}?${params.toString()}`;
+}
 
 const guesses = computed<Animal[]>(() =>
   guessIds.value.map((id) => pool.find((a) => a.id === id)!).filter(Boolean),
@@ -207,6 +252,9 @@ onMounted(() => {
     const detail = (e as CustomEvent<{ locale: Locale }>).detail;
     if (detail?.locale) locale.value = detail.locale;
   });
+  window.addEventListener("keydown", (e: KeyboardEvent) => {
+    if (e.key === "Escape") closeInfo();
+  });
   load();
 });
 </script>
@@ -244,6 +292,17 @@ onMounted(() => {
       >
         {{ copied ? t.copied : t.share }}
       </button>
+      <div class="mt-3">
+        <a
+          :href="reportUrl(target)"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-white/60 hover:text-primary-light underline underline-offset-4"
+          :title="t.reportHint"
+        >
+          🐞 {{ t.report }}
+        </a>
+      </div>
     </div>
 
     <!-- Input -->
@@ -294,7 +353,18 @@ onMounted(() => {
 
     <!-- Tabuleiro: perfil do alvo -->
     <section class="mb-8">
-      <h2 class="text-lg text-primary-light mb-3">{{ t.board }}</h2>
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <h2 class="text-lg text-primary-light">{{ t.board }}</h2>
+        <a
+          :href="reportUrl()"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-xs text-white/50 hover:text-primary-light underline underline-offset-4"
+          :title="t.reportHint"
+        >
+          🐞 {{ t.report }}
+        </a>
+      </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
         <div
           v-for="def in TRAITS"
@@ -310,11 +380,21 @@ onMounted(() => {
             <span class="text-[0.7rem] uppercase tracking-wide text-white/50">{{
               traitLabel(def)
             }}</span>
-            <span
-              v-if="def.key === FREE_HINT_KEY"
-              class="text-[0.6rem] px-1 rounded bg-primary-light/30 text-primary-light"
-              >{{ t.hintLabel }}</span
-            >
+            <div class="flex items-center gap-1 shrink-0">
+              <span
+                v-if="def.key === FREE_HINT_KEY"
+                class="text-[0.6rem] px-1 rounded bg-primary-light/30 text-primary-light"
+                >{{ t.hintLabel }}</span
+              >
+              <button
+                type="button"
+                class="flex items-center justify-center w-4 h-4 rounded-full border border-primary-light/60 text-primary-light text-[0.6rem] leading-none cursor-pointer hover:bg-primary-light hover:text-primary-darkest"
+                :aria-label="`${t.helpFor} ${traitLabel(def)}`"
+                @click="openInfo(def.key)"
+              >
+                ?
+              </button>
+            </div>
           </div>
           <span
             class="text-sm font-medium mt-1"
@@ -336,10 +416,19 @@ onMounted(() => {
           class="border rounded-md p-3"
           :class="r.correct ? 'border-secondary-light' : 'border-white/15'"
         >
-          <div class="flex items-center gap-2 mb-2">
+          <div class="flex items-center gap-2 mb-2 flex-wrap">
             <span class="text-xl">{{ r.animal.emoji }}</span>
             <strong>{{ r.animal.nomeComum }}</strong>
             <em class="text-white/50 text-sm">{{ r.animal.nomeCientifico }}</em>
+            <a
+              :href="reportUrl(r.animal)"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="ml-auto text-xs text-white/50 hover:text-primary-light underline underline-offset-4"
+              :title="t.reportHint"
+            >
+              🐞 {{ t.report }}
+            </a>
           </div>
           <div class="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
             <div
@@ -359,5 +448,80 @@ onMounted(() => {
         </div>
       </div>
     </section>
+
+    <!-- Dialog de ajuda de uma característica -->
+    <div
+      v-if="infoDef && infoData"
+      class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
+      @click.self="closeInfo"
+    >
+      <div
+        class="w-full max-w-lg max-h-[85vh] overflow-y-auto bg-primary-darkest border-2 border-primary-light rounded-lg p-5"
+        role="dialog"
+        aria-modal="true"
+      >
+        <div class="flex items-start justify-between gap-3 mb-3">
+          <h3 class="text-xl font-semibold text-primary-light">
+            {{ traitLabel(infoDef) }}
+          </h3>
+          <button
+            type="button"
+            class="text-white/60 hover:text-primary-light text-2xl leading-none cursor-pointer"
+            :aria-label="t.close"
+            @click="closeInfo"
+          >
+            ×
+          </button>
+        </div>
+
+        <p class="text-white/85 mb-4">
+          {{ locale === "pt-br" ? infoData.descPt : infoData.descEn }}
+        </p>
+
+        <div v-if="infoData.values.length">
+          <p class="text-sm uppercase tracking-wide text-white/50 mb-2">
+            {{ t.possibleValues }}
+          </p>
+          <ul class="space-y-1.5">
+            <li
+              v-for="v in infoData.values"
+              :key="v.value"
+              class="text-sm"
+            >
+              <span class="font-medium text-secondary-light">{{ v.value }}</span>
+              <span class="text-white/70">
+                — {{ locale === "pt-br" ? v.glossPt : v.glossEn }}</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <p
+          v-if="infoData.notePt || infoData.noteEn"
+          class="mt-4 text-sm text-white/70 border-l-2 border-primary-light/50 pl-3"
+        >
+          {{ locale === "pt-br" ? infoData.notePt : infoData.noteEn }}
+        </p>
+
+        <div class="mt-5 flex justify-between items-center gap-3">
+          <a
+            :href="reportUrl()"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-xs text-white/50 hover:text-primary-light underline underline-offset-4"
+            :title="t.reportHint"
+          >
+            🐞 {{ t.report }}
+          </a>
+          <button
+            type="button"
+            class="px-4 py-2 rounded-md bg-primary-light text-primary-darkest font-semibold cursor-pointer hover:opacity-90"
+            @click="closeInfo"
+          >
+            {{ t.close }}
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
