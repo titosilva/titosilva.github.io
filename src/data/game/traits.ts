@@ -1,7 +1,7 @@
 import type { TraitDef } from "./types";
 
 /** Escala ordinal de conservação da IUCN, do menos ao mais ameaçado. */
-export const CONSERVACAO_SCALE = ["LC", "NT", "VU", "EN", "CR"];
+export const CONSERVACAO_SCALE = ["LC", "NT", "VU", "EN", "CR", "EW"];
 
 /**
  * Ordem das características no tabuleiro. Todos os slots são mostrados desde o

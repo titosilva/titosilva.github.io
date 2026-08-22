@@ -211,6 +211,7 @@ export const TRAIT_INFO: Record<string, TraitInfo> = {
       { value: "VU", glossPt: "Vulnerável.", glossEn: "Vulnerable." },
       { value: "EN", glossPt: "Em perigo.", glossEn: "Endangered." },
       { value: "CR", glossPt: "Criticamente em perigo.", glossEn: "Critically Endangered." },
+      { value: "EW", glossPt: "Extinta na natureza (só sobrevive em cativeiro).", glossEn: "Extinct in the Wild (survives only in captivity)." },
       NA,
     ],
     notePt: "A seta indica se o alvo é mais (↑) ou menos (↓) ameaçado que o seu chute.",
