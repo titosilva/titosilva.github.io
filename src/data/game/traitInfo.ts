@@ -55,6 +55,8 @@ export const TRAIT_INFO: Record<string, TraitInfo> = {
       { value: "Peixe cartilaginoso", glossPt: "Tubarões e raias (Chondrichthyes).", glossEn: "Sharks and rays (Chondrichthyes)." },
       { value: "Aracnídeo", glossPt: "Artrópode de 8 patas (ex.: carrapatos).", glossEn: "Eight-legged arthropod (e.g. ticks)." },
       { value: "Inseto", glossPt: "Artrópode de 6 patas.", glossEn: "Six-legged arthropod." },
+      { value: "Crustáceo", glossPt: "Artrópode geralmente aquático (ex.: siris, caranguejos).", glossEn: "Usually aquatic arthropod (e.g. crabs, shrimps)." },
+      { value: "Molusco", glossPt: "Invertebrado de corpo mole (ex.: polvos, lulas).", glossEn: "Soft-bodied invertebrate (e.g. octopuses, squids)." },
       { value: "Nematódeo", glossPt: "Verme cilíndrico (Nematoda).", glossEn: "Roundworm (Nematoda)." },
       { value: "Cestódeo", glossPt: "Verme achatado segmentado (tênias).", glossEn: "Segmented flatworm (tapeworms)." },
       { value: "Protozoário", glossPt: "Eucarionte unicelular.", glossEn: "Single-celled eukaryote." },
