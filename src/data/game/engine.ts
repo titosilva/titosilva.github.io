@@ -168,24 +168,32 @@ export function revealValue(def: TraitDef, target: Animal): string {
 }
 
 // -----------------------------------------------------------------------------
-// Compartilhar resultado (estilo Wordle, sem revelar o bicho).
+// Sequência (streak) de dias resolvidos.
 // -----------------------------------------------------------------------------
 
-const EMOJI: Record<MatchState, string> = {
-  exact: "🟩",
-  partial: "🟨",
-  mismatch: "⬛",
-  na: "⬜",
-};
+/** Retorna a data anterior (YYYY-MM-DD) usando aritmética de calendário em UTC. */
+export function prevDateString(dateStr: string): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const dt = new Date(Date.UTC(y, m - 1, d));
+  dt.setUTCDate(dt.getUTCDate() - 1);
+  return dt.toISOString().slice(0, 10);
+}
 
-/** Gera o bloco de emojis para compartilhar. */
-export function buildShare(
-  results: GuessResult[],
-  dateStr: string = localDateString(),
-): string {
-  const header = `Bicho do Dia — ${dateStr} — ${results.length} 🐾`;
-  const rows = results.map((r) =>
-    TRAITS.map((def) => EMOJI[r.traits[def.key].state]).join(""),
-  );
-  return [header, ...rows].join("\n");
+export interface Streak {
+  lastWinDate: string | null;
+  streak: number;
+}
+
+/**
+ * Atualiza a sequência ao resolver o jogo em `today`.
+ * - Já contabilizado hoje → mantém.
+ * - Resolveu ontem → +1.
+ * - Caso contrário → reinicia em 1.
+ */
+export function bumpStreak(prev: Streak, today: string): Streak {
+  if (prev.lastWinDate === today) return prev;
+  if (prev.lastWinDate === prevDateString(today)) {
+    return { lastWinDate: today, streak: prev.streak + 1 };
+  }
+  return { lastWinDate: today, streak: 1 };
 }
