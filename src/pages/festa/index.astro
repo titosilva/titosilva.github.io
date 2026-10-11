@@ -1,0 +1,603 @@
+---
+// Convite da festa de 25 anos: página standalone (não usa o Layout do blog)
+// com a identidade visual pixel art / HUD de videogame.
+
+const EVENT = {
+	title: "TITO'S PARTY",
+	age: "25 ANOS",
+	day: "SÁBADO",
+	time: "19H",
+	date: "17/10",
+	theme: "NOITE DE JOGOS",
+	address: "SRES Q10 BL K1, CASA 55, CRUZEIRO VELHO",
+	fullAddress: "SRES Quadra 10 Bloco K1, Casa 55 - Cruzeiro Velho, Brasília - DF",
+	// Bloco K1 da SRES Q10 (OpenStreetMap). Ajuste se o pino cair no lugar errado.
+	lat: -15.7805566,
+	lon: -47.9328224,
+	// 17/10/2026 19:00 em Brasília (UTC-3)
+	start: "2026-10-17T19:00:00-03:00",
+	end: "2026-10-18T00:00:00-03:00",
+};
+
+const coords = `${EVENT.lat},${EVENT.lon}`;
+const enc = encodeURIComponent;
+
+const links = {
+	google: `https://www.google.com/maps/dir/?api=1&destination=${coords}`,
+	waze: `https://waze.com/ul?ll=${coords}&navigate=yes`,
+	apple: `https://maps.apple.com/?daddr=${coords}&q=${enc(EVENT.title)}`,
+	uber:
+		`https://m.uber.com/ul/?action=setPickup&pickup=my_location` +
+		`&dropoff[latitude]=${EVENT.lat}&dropoff[longitude]=${EVENT.lon}` +
+		`&dropoff[nickname]=${enc(EVENT.title)}&dropoff[formatted_address]=${enc(EVENT.fullAddress)}`,
+	gcal:
+		`https://calendar.google.com/calendar/render?action=TEMPLATE` +
+		`&text=${enc("Tito's Party - 25 anos")}` +
+		`&dates=20261017T220000Z/20261018T030000Z` +
+		`&details=${enc("Noite de jogos! " + EVENT.title)}` +
+		`&location=${enc(EVENT.fullAddress)}`,
+};
+
+// Pixel art: cada string é uma linha, cada caractere um pixel ("." = vazio).
+function px(rows: string[], pal: Record<string, string>, cls = "") {
+	const h = rows.length;
+	const w = Math.max(...rows.map((r) => r.length));
+	let rects = "";
+	rows.forEach((row, y) => {
+		let x = 0;
+		while (x < row.length) {
+			const c = row[x];
+			let run = 1;
+			while (row[x + run] === c) run++;
+			if (pal[c]) rects += `<rect x="${x}" y="${y}" width="${run}" height="1" fill="${pal[c]}"/>`;
+			x += run;
+		}
+	});
+	return `<svg class="${cls}" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
+}
+
+const icons = {
+	spark: px(
+		["...Y...", "...Y...", "..YYY..", "YYYYYYY", "..YYY..", "...Y...", "...Y..."],
+		{ Y: "#f4d86a" },
+	),
+	heart: px(
+		[".KKK.KKK.", "KRLRKRRRK", "KRRRRRRRK", "KRRRRRRRK", ".KRRRRRK.", "..KRRRK..", "...KRK...", "....K...."],
+		{ K: "#2a1020", R: "#e5545c", L: "#ffb3b8" },
+	),
+	trophy: px(
+		[
+			"..KKKKKKKK..",
+			"KKKYLYYYOKKK",
+			"K.KYLYYYOK.K",
+			"K.KYLYYYOK.K",
+			".KKYYYYYOKK.",
+			"...KYYYYK...",
+			"....KYOK....",
+			"....KYOK....",
+			"...KKKKKK...",
+			"..KYYYYYOK..",
+			"..KKKKKKKK..",
+		],
+		{ K: "#5a3d00", Y: "#f4c94a", L: "#ffe9a0", O: "#c9902a" },
+	),
+	dino: px(
+		[
+			"......GGGGGG",
+			".....GGWGGGG",
+			".....GGGGGGG",
+			".....GGGG...",
+			".....GGGGGG.",
+			"G...GGGG....",
+			"G..GGGGGGG..",
+			"GGGGGGGG.G..",
+			".GGGGGGG....",
+			"..GGGGGG....",
+			"...GG.GG....",
+			"...G...G....",
+			"...GG..GG...",
+		],
+		{ G: "#535353", W: "#ffffff" },
+	),
+	dpad: px(
+		[
+			"...KKK...",
+			"...KLK...",
+			"...KLK...",
+			"KKKKLKKKK",
+			"KLLLDLLLK",
+			"KKKKLKKKK",
+			"...KLK...",
+			"...KLK...",
+			"...KKK...",
+		],
+		{ K: "#2c2140", L: "#b9a4d6", D: "#8a76a8" },
+	),
+	controller: px(
+		[
+			"..KKKKKKKKKKK..",
+			".KGGGGGGGGGGGK.",
+			"KGGKGGGGGGGRGGK",
+			"KGKKKGGGGGBGYGK",
+			"KGGKGGGGGGGEGGK",
+			"KGGGGGKKKGGGGGK",
+			"KGGGGK...KGGGGK",
+			".KKKK.....KKKK.",
+		],
+		{ K: "#2b2b2b", G: "#c9c9c9", R: "#e5545c", B: "#5cc4ee", Y: "#f4c94a", E: "#6a9a48" },
+	),
+	book: px(
+		[
+			"KKKKK..KKKKK",
+			"KYYYYKKYYYYK",
+			"KYOOYKKYOOYK",
+			"KYYYYKKYYYYK",
+			"KYOOYKKYOOYK",
+			"KYYYYKKYYYYK",
+			"KKKKKKKKKKKK",
+			"....KKKK....",
+		],
+		{ K: "#5a3d00", Y: "#f4d86a", O: "#c9902a" },
+	),
+	computer: px(
+		[
+			".KKKKKKKKKK.",
+			"KPPPPPPPPPPK",
+			"KPKKKKKKKKPK",
+			"KPKYYYYYYKPK",
+			"KPKYLYYYYKPK",
+			"KPKYYYYYYKPK",
+			"KPKKKKKKKKPK",
+			"KPPPPPPPVVPK",
+			"KKKKKKKKKKKK",
+			"..KVVVVVVK..",
+			".KVVVVVVVVK.",
+			".KKKKKKKKKK.",
+		],
+		{ K: "#2c2140", P: "#e8a6ea", V: "#b9a4d6", Y: "#f4c94a", L: "#fff3b0" },
+	),
+	cursor: px(
+		["K......", "KK.....", "KWK....", "KWWK...", "KWWWK..", "KWWWWK.", "KWWKKKK", "KKWK...", "K.KWK..", "...KK.."],
+		{ K: "#12323d", W: "#ffffff" },
+	),
+	pin: px(
+		[".KKKKK.", "KRRRRRK", "KRLWLRK", "KRWWWRK", "KRLWLRK", "KRRRRRK", ".KRRRK.", "..KRK..", "..KRK..", "...K..."],
+		{ K: "#2a1020", R: "#e5545c", W: "#ffffff", L: "#ffb3b8" },
+	),
+	car: px(
+		["..KKKKK...", ".KBBWBBK..", "KBBBBBBBBK", "KBBBBBBBBK", "KKGKKKKGKK", "..K....K.."],
+		{ K: "#12323d", B: "#aee4f7", W: "#ffffff", G: "#535353" },
+	),
+	calendar: px(
+		[".K.K.K.K.", "KKKKKKKKK", "KRRRRRRRK", "KWWWWWWWK", "KWKWKWKWK", "KWWWWWWWK", "KWKWKWRWK", "KWWWWWWWK", "KKKKKKKKK"],
+		{ K: "#12323d", R: "#e5545c", W: "#ffffff" },
+	),
+};
+
+const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.theme}. ${EVENT.address}`;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<meta name="robots" content="noindex" />
+		<meta name="theme-color" content="#5b95a0" />
+		<link rel="icon" href="/favicon.ico" />
+		<title>Tito's Party</title>
+
+		<meta property="og:title" content="TITO'S PARTY - 25 ANOS" />
+		<meta property="og:description" content={ogDescription} />
+		<meta property="og:image" content="https://titosilva.github.io/og-festa.png" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://titosilva.github.io/festa" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet" />
+
+		<style is:global>
+			:root {
+				--bg: #5b95a0;
+				--panel: #3f7482;
+				--panel-2: #356573;
+				--edge: #1e3d47;
+				--ink: #ffffff;
+				--muted: #cfe6ea;
+				--glow: #aee4f7;
+				--green: #6a9a48;
+				--green-edge: #3b5a2a;
+				--gold: #f4c94a;
+				--red: #e5545c;
+				--lilac: #b9a4d6;
+				--pink: #e8a6ea;
+				--bar-empty: #9a8bb0;
+				--pixel: "Press Start 2P", "Courier New", monospace;
+				--text: "Silkscreen", "Courier New", ui-monospace, monospace;
+			}
+			@media (prefers-color-scheme: dark) {
+				:root:not([data-theme="light"]) {
+					--bg: #274a54; --panel: #2f5b69; --panel-2: #274e5a; --edge: #11262d;
+				}
+			}
+			:root[data-theme="dark"] { --bg: #274a54; --panel: #2f5b69; --panel-2: #274e5a; --edge: #11262d; }
+
+			* { box-sizing: border-box; }
+			html { background: var(--bg); }
+			body {
+				margin: 0;
+				background: var(--bg);
+				color: var(--ink);
+				font-family: var(--text);
+				text-transform: uppercase;
+				letter-spacing: .04em;
+				-webkit-text-size-adjust: 100%;
+			}
+			svg { display: block; }
+			a { color: inherit; }
+
+			.wrap {
+				max-width: 640px;
+				margin: 0 auto;
+				padding: calc(18px + env(safe-area-inset-top, 0px)) 16px calc(48px + env(safe-area-inset-bottom, 0px));
+			}
+
+			/* ---------- Cabeçalho ---------- */
+			header { position: relative; text-align: center; padding: 18px 0 8px; }
+			.age {
+				display: inline-block; color: #fff; background: var(--red);
+				border: 3px solid var(--edge); box-shadow: 0 4px 0 var(--edge);
+				font-size: 15px; font-weight: 700; letter-spacing: .12em; padding: 6px 12px;
+			}
+			h1 {
+				font-family: var(--pixel); font-weight: 400;
+				margin: 22px 0 0; color: var(--glow); line-height: 1.5; font-size: 30px; letter-spacing: .03em;
+				text-shadow: 0 0 6px #7fd3f2, 0 0 16px #5cc4ee, 0 0 30px rgba(92,196,238,.7);
+			}
+			.when { margin-top: 18px; font-size: 16px; font-weight: 700; line-height: 1.7; }
+			.when .sep { color: var(--gold); }
+			.where { margin-top: 8px; font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+			.deco { position: absolute; image-rendering: pixelated; }
+			.deco svg { width: 100%; height: 100%; }
+			.d-spark-l { left: 4px; top: 70px; width: 21px; height: 21px; }
+			.d-spark-r { right: 6px; top: 128px; width: 21px; height: 21px; }
+			.d-trophy { left: 0; top: 0; width: 36px; height: 33px; }
+			.d-controller { right: 0; top: 4px; width: 45px; height: 24px; }
+			.d-spark-s { right: 46px; top: 54px; width: 14px; height: 14px; }
+
+			/* ---------- START ---------- */
+			.start-wrap { text-align: center; margin: 22px 0 6px; }
+			.press { font-size: 11px; color: var(--muted); margin-bottom: 12px; animation: blink 1s steps(1) infinite; }
+			@keyframes blink { 50% { opacity: 0; } }
+			.btn-start {
+				appearance: none; cursor: pointer; width: 100%;
+				font-family: var(--pixel); font-size: 18px; letter-spacing: .08em; color: #fff;
+				background: var(--green); border: 3px solid var(--green-edge); border-radius: 0;
+				box-shadow: 0 5px 0 var(--green-edge); padding: 18px 10px;
+			}
+			.btn-start:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--green-edge); }
+
+			/* ---------- Cartões ---------- */
+			.card {
+				background: var(--panel); border: 3px solid var(--edge); box-shadow: 0 4px 0 var(--edge);
+				padding: 14px 12px; margin-top: 16px; scroll-margin-top: 16px;
+			}
+			.card.flash { animation: flash .6s steps(2) 2; }
+			@keyframes flash { 50% { background: var(--panel-2); border-color: var(--glow); } }
+			.card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+			.card-head .ico { width: 30px; height: 30px; flex: none; display: grid; place-items: center; }
+			.card-head .ico svg { width: 100%; height: auto; max-height: 30px; }
+			.lvl { font-size: 10px; color: var(--gold); letter-spacing: .12em; }
+			.card h2 { margin: 2px 0 0; font-size: 16px; font-weight: 700; letter-spacing: .06em; }
+
+			/* HUD contagem regressiva */
+			.hud-top { display: flex; align-items: center; gap: 8px; }
+			.hud-top .heart { width: 30px; height: 27px; flex: none; }
+			.hud-top .heart svg { width: 100%; height: 100%; }
+			.bar { flex: 1; height: 20px; background: var(--bar-empty); border: 3px solid var(--edge); overflow: hidden; }
+			.bar i { display: block; height: 100%; width: 0; background: var(--green); transition: width .35s steps(8); }
+			.big {
+				font-family: var(--pixel); color: var(--gold); text-shadow: 3px 3px 0 var(--edge);
+				font-size: 22px; text-align: center; margin: 16px 0 8px; line-height: 1.4;
+			}
+			.hud-label { font-size: 12px; color: var(--muted); text-align: center; }
+
+			/* Mapa pixel */
+			.map { position: relative; border: 3px solid var(--edge); background: #4f8a5a; display: block; }
+			.map svg.map-art { width: 100%; height: auto; }
+			.map .tag {
+				position: absolute; right: 8px; bottom: 8px; background: var(--edge); color: #fff;
+				font-size: 10px; padding: 4px 6px; letter-spacing: .06em;
+			}
+			.pin-bob { animation: bob 1s steps(2) infinite; }
+			@keyframes bob { 50% { transform: translateY(-2px); } }
+			.addr { margin: 12px 0 0; font-size: 13px; font-weight: 700; line-height: 1.6; }
+			.addr small { display: block; font-size: 10px; font-weight: 400; color: var(--muted); }
+
+			.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+			.btn {
+				appearance: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+				min-height: 50px; padding: 10px 8px; text-decoration: none; text-align: center;
+				font-family: var(--text); font-size: 13px; font-weight: 700; letter-spacing: .06em; color: var(--ink);
+				background: var(--panel-2); border: 3px solid var(--edge); border-radius: 0; box-shadow: 0 4px 0 var(--edge);
+			}
+			.btn:active { transform: translateY(3px); box-shadow: 0 1px 0 var(--edge); }
+			.btn:focus-visible, .btn-start:focus-visible { outline: 3px solid var(--glow); outline-offset: 2px; }
+			.btn.uber { background: #12323d; color: #fff; }
+			.btn.primary { background: var(--green); border-color: var(--green-edge); box-shadow: 0 4px 0 var(--green-edge); color: #fff; }
+			.btn.primary:active { box-shadow: 0 1px 0 var(--green-edge); }
+			.btn.wide { grid-column: 1 / -1; }
+			.btn .ic { width: 18px; height: 18px; flex: none; }
+			.btn .ic svg { width: 100%; height: 100%; }
+			.dot { width: 10px; height: 10px; flex: none; border: 2px solid var(--edge); }
+
+			.note { text-align: center; font-size: 11px; color: var(--gold); min-height: 16px; margin-top: 10px; }
+
+			/* Divisor de ícones */
+			.divider { display: flex; justify-content: center; align-items: flex-end; gap: 18px; margin: 28px 0 6px; flex-wrap: wrap; }
+			.divider span { display: block; }
+			.divider svg { width: auto; height: 30px; }
+			.divider .sm svg { height: 20px; }
+
+			footer { text-align: center; margin-top: 18px; font-size: 11px; color: var(--muted); line-height: 1.8; }
+			footer b { color: var(--gold); font-family: var(--pixel); font-weight: 400; font-size: 12px; display: block; margin-bottom: 6px; text-shadow: 2px 2px 0 var(--edge); }
+
+			@media (max-width: 380px) {
+				h1 { font-size: 24px; }
+				.btn { font-size: 12px; }
+				.d-controller, .d-trophy { transform: scale(.8); transform-origin: top; }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				.press, .pin-bob, .card.flash { animation: none; }
+				.bar i { transition: none; }
+			}
+		</style>
+	</head>
+	<body>
+		<main class="wrap">
+			<header>
+				<span class="deco d-trophy" set:html={icons.trophy} />
+				<span class="deco d-controller" set:html={icons.controller} />
+				<span class="deco d-spark-l" set:html={icons.spark} />
+				<span class="deco d-spark-r" set:html={icons.spark} />
+				<span class="deco d-spark-s" set:html={icons.spark} />
+
+				<div class="age">{EVENT.age}</div>
+				<h1>TITO'S<br />PARTY</h1>
+				<div class="when">
+					{EVENT.day} <span class="sep">|</span> {EVENT.time} <span class="sep">|</span> {EVENT.date}<br />
+					{EVENT.theme}
+				</div>
+				<div class="where">{EVENT.address}</div>
+			</header>
+
+			<div class="start-wrap">
+				<div class="press">PRESS START</div>
+				<button id="start" class="btn-start" type="button">START</button>
+			</div>
+
+			<!-- Contagem regressiva -->
+			<section class="card" id="hud" aria-live="polite">
+				<div class="hud-top">
+					<span class="heart" set:html={icons.heart} />
+					<div class="bar" aria-hidden="true"><i id="fill"></i></div>
+				</div>
+				<div id="count" class="big">17/10</div>
+				<div id="count-label" class="hud-label">SÁBADO, 19H</div>
+			</section>
+
+			<!-- Fase 1: chegar -->
+			<section class="card" id="fase1">
+				<div class="card-head">
+					<span class="ico" set:html={icons.pin} />
+					<div>
+						<div class="lvl">FASE 1</div>
+						<h2>CHEGUE AO CASTELO</h2>
+					</div>
+				</div>
+
+				<a class="map" href={links.google} target="_blank" rel="noopener" aria-label="Abrir local no Google Maps">
+					<svg class="map-art" viewBox="0 0 64 36" shape-rendering="crispEdges" aria-hidden="true">
+						<rect width="64" height="36" fill="#4f8a5a" />
+						<!-- quadras -->
+						<g fill="#5f9d68">
+							<rect x="2" y="2" width="14" height="9" /><rect x="22" y="2" width="16" height="9" /><rect x="44" y="2" width="18" height="9" />
+							<rect x="2" y="17" width="14" height="7" /><rect x="22" y="17" width="16" height="7" /><rect x="44" y="17" width="18" height="7" />
+							<rect x="2" y="30" width="14" height="4" /><rect x="22" y="30" width="16" height="4" /><rect x="44" y="30" width="18" height="4" />
+						</g>
+						<!-- casinhas -->
+						<g fill="#e8a6ea"><rect x="4" y="4" width="3" height="3" /><rect x="10" y="19" width="3" height="3" /><rect x="25" y="4" width="3" height="3" /><rect x="56" y="19" width="3" height="3" /></g>
+						<g fill="#b9a4d6"><rect x="31" y="5" width="3" height="3" /><rect x="5" y="31" width="3" height="2" /><rect x="27" y="19" width="3" height="3" /></g>
+						<g fill="#f4c94a"><rect x="48" y="4" width="3" height="3" /></g>
+						<!-- ruas -->
+						<g fill="#cfe6ea">
+							<rect x="0" y="12" width="64" height="4" /><rect x="0" y="25" width="64" height="4" />
+							<rect x="17" y="0" width="4" height="36" /><rect x="39" y="0" width="4" height="36" />
+						</g>
+						<g fill="#9fbfc6">
+							<rect x="1" y="14" width="2" height="0.5" /><rect x="6" y="14" width="2" height="0.5" /><rect x="11" y="14" width="2" height="0.5" />
+							<rect x="24" y="27" width="2" height="0.5" /><rect x="29" y="27" width="2" height="0.5" /><rect x="34" y="27" width="2" height="0.5" />
+						</g>
+						<!-- caminho -->
+						<g fill="#e5545c">
+							<rect x="19" y="31" width="1" height="1" /><rect x="19" y="29" width="1" height="1" /><rect x="19" y="27" width="1" height="1" />
+							<rect x="21" y="27" width="1" height="1" /><rect x="23" y="27" width="1" height="1" /><rect x="25" y="27" width="1" height="1" />
+							<rect x="27" y="27" width="1" height="1" /><rect x="29" y="27" width="1" height="1" /><rect x="31" y="27" width="1" height="1" />
+							<rect x="33" y="27" width="1" height="1" /><rect x="35" y="27" width="1" height="1" /><rect x="37" y="27" width="1" height="1" />
+							<rect x="41" y="27" width="1" height="1" /><rect x="41" y="25" width="1" height="1" /><rect x="43" y="23" width="1" height="1" />
+							<rect x="45" y="23" width="1" height="1" />
+						</g>
+						<!-- carro -->
+						<g transform="translate(16 30)">
+							<rect x="2" y="0" width="5" height="1" fill="#12323d" />
+							<rect x="0" y="1" width="9" height="3" fill="#aee4f7" />
+							<rect x="3" y="1" width="2" height="1" fill="#ffffff" />
+							<rect x="0" y="4" width="9" height="1" fill="#12323d" />
+							<rect x="1" y="4" width="2" height="2" fill="#535353" /><rect x="6" y="4" width="2" height="2" fill="#535353" />
+						</g>
+						<!-- pino -->
+						<g transform="translate(46 13)"><g class="pin-bob">
+							<rect x="1" y="0" width="5" height="1" fill="#2a1020" />
+							<rect x="0" y="1" width="7" height="5" fill="#2a1020" />
+							<rect x="1" y="1" width="5" height="5" fill="#e5545c" />
+							<rect x="2" y="2" width="3" height="3" fill="#ffffff" />
+							<rect x="1" y="6" width="5" height="1" fill="#2a1020" /><rect x="2" y="6" width="3" height="1" fill="#e5545c" />
+							<rect x="2" y="7" width="3" height="1" fill="#2a1020" /><rect x="3" y="7" width="1" height="1" fill="#e5545c" />
+							<rect x="3" y="8" width="1" height="1" fill="#2a1020" />
+						</g></g>
+					</svg>
+					<span class="tag">TOQUE PARA ABRIR</span>
+				</a>
+
+				<p class="addr">
+					{EVENT.address}
+					<small>BRASÍLIA - DF</small>
+				</p>
+
+				<div class="grid">
+					<a class="btn primary" href={links.google} target="_blank" rel="noopener">
+						<span class="dot" style="background:#f4c94a"></span>GOOGLE MAPS
+					</a>
+					<a class="btn uber" href={links.uber} target="_blank" rel="noopener">
+						<span class="ic" set:html={icons.car} />UBER
+					</a>
+					<a class="btn" href={links.waze} target="_blank" rel="noopener">
+						<span class="dot" style="background:#aee4f7"></span>WAZE
+					</a>
+					<a class="btn" href={links.apple} target="_blank" rel="noopener">
+						<span class="dot" style="background:#b9a4d6"></span>APPLE MAPS
+					</a>
+					<button class="btn wide" type="button" id="copy" data-addr={EVENT.fullAddress}>
+						COPIAR ENDEREÇO
+					</button>
+				</div>
+				<div id="copy-note" class="note" aria-live="polite"></div>
+			</section>
+
+			<!-- Fase 2: agenda -->
+			<section class="card" id="fase2">
+				<div class="card-head">
+					<span class="ico" set:html={icons.calendar} />
+					<div>
+						<div class="lvl">FASE 2</div>
+						<h2>SALVE O CHECKPOINT</h2>
+					</div>
+				</div>
+				<p class="hud-label" style="text-align:left;margin:0">COLOQUE A FESTA NA SUA AGENDA PARA NÃO PERDER A PARTIDA.</p>
+				<div class="grid">
+					<a class="btn" href={links.gcal} target="_blank" rel="noopener">GOOGLE AGENDA</a>
+					<button class="btn" type="button" id="ics">IPHONE / OUTROS</button>
+				</div>
+			</section>
+
+			<div class="divider" aria-hidden="true">
+				<span set:html={icons.dino} />
+				<span set:html={icons.dpad} />
+				<span set:html={icons.book} />
+				<span class="sm" set:html={icons.heart} />
+				<span set:html={icons.computer} />
+				<span class="sm" set:html={icons.cursor} />
+			</div>
+
+			<footer>
+				<b>PLAYER 2?</b>
+				TE ESPERO LÁ PARA JOGAR!
+			</footer>
+		</main>
+
+		<script is:inline define:vars={{ EVENT }}>
+			const $ = (id) => document.getElementById(id);
+			const start = new Date(EVENT.start).getTime();
+			const end = new Date(EVENT.end).getTime();
+			const DAY = 864e5;
+
+			// Contagem regressiva como barra de vida: enche nos últimos 30 dias.
+			function tick() {
+				const now = Date.now();
+				const left = start - now;
+				let big, label, pct;
+				if (now >= end) {
+					big = "GAME OVER"; label = "OBRIGADO POR JOGAR!"; pct = 100;
+				} else if (now >= start) {
+					big = "EM JOGO!"; label = "A FESTA ESTÁ ROLANDO"; pct = 100;
+				} else if (left < DAY && new Date(now).toDateString() === new Date(start).toDateString()) {
+					const h = Math.floor(left / 36e5), m = Math.floor((left % 36e5) / 6e4);
+					big = "É HOJE!"; label = `FALTAM ${h}H ${String(m).padStart(2, "0")}MIN`; pct = 98;
+				} else {
+					const midnight = (t) => { const x = new Date(t); x.setHours(0, 0, 0, 0); return x.getTime(); };
+					const d = Math.round((midnight(start) - midnight(now)) / DAY);
+					big = `${d} ${d === 1 ? "DIA" : "DIAS"}`; label = "PARA A PARTIDA COMEÇAR";
+					pct = Math.max(4, Math.min(96, 100 - (left / (30 * DAY)) * 100));
+				}
+				$("count").textContent = big;
+				$("count-label").textContent = label;
+				$("fill").style.width = pct + "%";
+			}
+			tick();
+			setInterval(tick, 30000);
+
+			// Som 8-bit curtinho no START.
+			function chime() {
+				try {
+					const ctx = new (window.AudioContext || window.webkitAudioContext)();
+					[523.25, 659.25, 783.99, 1046.5].forEach((f, i) => {
+						const o = ctx.createOscillator(), g = ctx.createGain();
+						o.type = "square"; o.frequency.value = f;
+						g.gain.value = 0.04;
+						o.connect(g); g.connect(ctx.destination);
+						const t = ctx.currentTime + i * 0.09;
+						o.start(t); o.stop(t + 0.08);
+					});
+				} catch (e) {}
+			}
+
+			$("start").addEventListener("click", () => {
+				chime();
+				const card = $("fase1");
+				card.scrollIntoView({ behavior: "smooth", block: "start" });
+				card.classList.remove("flash");
+				void card.offsetWidth;
+				card.classList.add("flash");
+			});
+
+			$("copy").addEventListener("click", async (ev) => {
+				const addr = ev.currentTarget.dataset.addr;
+				const note = $("copy-note");
+				try {
+					await navigator.clipboard.writeText(addr);
+					note.textContent = "ENDEREÇO COPIADO ✓";
+				} catch (e) {
+					note.textContent = addr;
+				}
+			});
+
+			$("ics").addEventListener("click", () => {
+				const ics = [
+					"BEGIN:VCALENDAR",
+					"VERSION:2.0",
+					"PRODID:-//titosilva.github.io//festa//PT",
+					"BEGIN:VEVENT",
+					"UID:titos-party-2026@titosilva.github.io",
+					"DTSTAMP:" + new Date().toISOString().replace(/[-:]/g, "").split(".")[0] + "Z",
+					"DTSTART:20261017T220000Z",
+					"DTEND:20261018T030000Z",
+					"SUMMARY:Tito's Party - 25 anos",
+					"DESCRIPTION:Noite de jogos!",
+					"LOCATION:" + EVENT.fullAddress.replace(/,/g, "\\,"),
+					"GEO:" + EVENT.lat + ";" + EVENT.lon,
+					"END:VEVENT",
+					"END:VCALENDAR",
+				].join("\r\n");
+				const url = URL.createObjectURL(new Blob([ics], { type: "text/calendar" }));
+				const a = document.createElement("a");
+				a.href = url; a.download = "titos-party.ics";
+				document.body.appendChild(a); a.click(); a.remove();
+				setTimeout(() => URL.revokeObjectURL(url), 1000);
+			});
+		</script>
+	</body>
+</html>
