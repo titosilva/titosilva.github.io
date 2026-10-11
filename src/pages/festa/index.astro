@@ -196,6 +196,22 @@ const icons = {
 		],
 		{ K: "#2a1020", W: "#ffffff", R: "#e5545c", B: "#12323d" },
 	),
+	helmet: px(
+		[
+			"....KK....",
+			"...KPPK...",
+			"..KKPKKK..",
+			".KGGGGGGK.",
+			"KGLGGGGGGK",
+			"KGLKKKKKGK",
+			"KGGGGGGGGK",
+			"KGLKKKKKGK",
+			"KGGGGGGGGK",
+			".KGGKKGGK.",
+			"..KKKKKK..",
+		],
+		{ K: "#2c2140", G: "#c9c9c9", L: "#ffffff", P: "#e5545c" },
+	),
 	calendar: px(
 		[".K.K.K.K.", "KKKKKKKKK", "KRRRRRRRK", "KWWWWWWWK", "KWKWKWKWK", "KWWWWWWWK", "KWKWKWRWK", "KWWWWWWWK", "KKKKKKKKK"],
 		{ K: "#12323d", R: "#e5545c", W: "#ffffff" },
@@ -376,6 +392,10 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 			.slot.more .art { font-family: var(--pixel); font-size: 18px; color: var(--gold); text-shadow: 2px 2px 0 var(--edge); }
 			.tip { display: inline-block; margin-top: 12px; background: var(--gold); color: #3a2a00; border: 2px solid var(--edge); font-size: 10px; font-weight: 700; padding: 4px 8px; letter-spacing: .06em; }
 
+			.tip.pink { background: var(--pink); color: #3a1440; }
+			.card.bonus { border-color: var(--edge); box-shadow: 0 4px 0 var(--edge), inset 0 0 0 3px rgba(232,166,234,.35); }
+			.knight { color: var(--pink); font-weight: 700; }
+
 			.note { text-align: center; font-size: 11px; color: var(--gold); min-height: 16px; margin-top: 10px; }
 
 			/* Divisor de ícones */
@@ -535,17 +555,17 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 				</div>
 			</section>
 
-			<!-- Fase 3: jogos -->
+			<!-- Fase 3: itens encantados -->
 			<section class="card" id="fase3">
 				<div class="card-head">
 					<span class="ico" set:html={icons.dice} />
 					<div>
 						<div class="lvl">FASE 3</div>
-						<h2>TRAGA SEUS JOGOS</h2>
+						<h2>TRAGA SEUS ITENS ENCANTADOS</h2>
 					</div>
 				</div>
 				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
-					QUER JOGAR ALGO? PODE TRAZER JOGOS DE TABULEIRO, CARTAS, BRINQUEDOS OU O QUE MAIS QUISER PRA PARTIDA!
+					QUER JOGAR ALGO? PODE TRAZER JOGOS DE TABULEIRO, CARTAS, BRINQUEDOS OU QUALQUER ITEM ENCANTADO QUE QUISER PRA PARTIDA!
 				</p>
 				<div class="inv" aria-hidden="true">
 					<div class="slot"><span class="art" set:html={icons.dice} />TABULEIRO</div>
@@ -554,6 +574,21 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 					<div class="slot more"><span class="art">+</span>O QUE QUISER</div>
 				</div>
 				<span class="tip">ITEM OPCIONAL</span>
+			</section>
+
+			<!-- Fase bônus: área dos bebês -->
+			<section class="card bonus" id="bebes">
+				<div class="card-head">
+					<span class="ico" set:html={icons.helmet} />
+					<div>
+						<div class="lvl">FASE BÔNUS</div>
+						<h2>ÁREA DOS BEBÊS</h2>
+					</div>
+				</div>
+				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
+					OS PEQUENOS JOGADORES TERÃO UMA ÁREA SÓ DELES, COM OS BRINQUEDOS DO <b class="knight">CAVALEIRO PEDRO</b>!
+				</p>
+				<span class="tip pink">ZONA SEGURA</span>
 			</section>
 
 			<div class="divider" aria-hidden="true">
