@@ -168,6 +168,34 @@ const icons = {
 		["..KKKKK...", ".KBBWBBK..", "KBBBBBBBBK", "KBBBBBBBBK", "KKGKKKKGKK", "..K....K.."],
 		{ K: "#12323d", B: "#aee4f7", W: "#ffffff", G: "#535353" },
 	),
+	dice: px(
+		[
+			".KKKKKKK.",
+			"KWWWWWWWK",
+			"KWKWWWKWK",
+			"KWWWWWWWK",
+			"KWWWKWWWK",
+			"KWWWWWWWK",
+			"KWKWWWKWK",
+			"KWWWWWWWK",
+			".KKKKKKK.",
+		],
+		{ K: "#2a1020", W: "#ffffff" },
+	),
+	cards: px(
+		[
+			"KKKKKK...",
+			"KWWWWKKKK",
+			"KWRWWKWWK",
+			"KWRRWKWWK",
+			"KWRWWKBWK",
+			"KWWWWKBBK",
+			"KKKKKKBWK",
+			".....KWWK",
+			".....KKKK",
+		],
+		{ K: "#2a1020", W: "#ffffff", R: "#e5545c", B: "#12323d" },
+	),
 	calendar: px(
 		[".K.K.K.K.", "KKKKKKKKK", "KRRRRRRRK", "KWWWWWWWK", "KWKWKWKWK", "KWWWWWWWK", "KWKWKWRWK", "KWWWWWWWK", "KKKKKKKKK"],
 		{ K: "#12323d", R: "#e5545c", W: "#ffffff" },
@@ -335,6 +363,19 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 			.btn .ic svg { width: 100%; height: 100%; }
 			.dot { width: 10px; height: 10px; flex: none; border: 2px solid var(--edge); }
 
+			/* Inventário */
+			.inv { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 14px; }
+			.slot {
+				background: var(--panel-2); border: 3px solid var(--edge); box-shadow: inset 0 0 0 2px rgba(174,228,247,.12);
+				display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+				padding: 12px 4px 10px; text-align: center; font-size: 9px; line-height: 1.4; color: var(--muted);
+			}
+			.slot .art { height: 28px; display: grid; place-items: center; }
+			.slot .art svg { height: 100%; width: auto; }
+			.slot.more { border-style: dashed; }
+			.slot.more .art { font-family: var(--pixel); font-size: 18px; color: var(--gold); text-shadow: 2px 2px 0 var(--edge); }
+			.tip { display: inline-block; margin-top: 12px; background: var(--gold); color: #3a2a00; border: 2px solid var(--edge); font-size: 10px; font-weight: 700; padding: 4px 8px; letter-spacing: .06em; }
+
 			.note { text-align: center; font-size: 11px; color: var(--gold); min-height: 16px; margin-top: 10px; }
 
 			/* Divisor de ícones */
@@ -492,6 +533,27 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 					<a class="btn" href={links.gcal} target="_blank" rel="noopener">GOOGLE AGENDA</a>
 					<button class="btn" type="button" id="ics">IPHONE / OUTROS</button>
 				</div>
+			</section>
+
+			<!-- Fase 3: jogos -->
+			<section class="card" id="fase3">
+				<div class="card-head">
+					<span class="ico" set:html={icons.dice} />
+					<div>
+						<div class="lvl">FASE 3</div>
+						<h2>TRAGA SEUS JOGOS</h2>
+					</div>
+				</div>
+				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
+					QUER JOGAR ALGO? PODE TRAZER JOGOS DE TABULEIRO, CARTAS, BRINQUEDOS OU O QUE MAIS QUISER PRA PARTIDA!
+				</p>
+				<div class="inv" aria-hidden="true">
+					<div class="slot"><span class="art" set:html={icons.dice} />TABULEIRO</div>
+					<div class="slot"><span class="art" set:html={icons.cards} />CARTAS</div>
+					<div class="slot"><span class="art" set:html={icons.dino} />BRINQUEDOS</div>
+					<div class="slot more"><span class="art">+</span>O QUE QUISER</div>
+				</div>
+				<span class="tip">ITEM OPCIONAL</span>
 			</section>
 
 			<div class="divider" aria-hidden="true">
