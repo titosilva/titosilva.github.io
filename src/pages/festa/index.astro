@@ -451,12 +451,64 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 				<div id="count-label" class="hud-label">SÁBADO, 19H</div>
 			</section>
 
-			<!-- Fase 1: chegar -->
+			<!-- Fase 1: agenda -->
 			<section class="card" id="fase1">
+				<div class="card-head">
+					<span class="ico" set:html={icons.calendar} />
+					<div>
+						<div class="lvl">FASE 1</div>
+						<h2>SALVE O CHECKPOINT</h2>
+					</div>
+				</div>
+				<p class="hud-label" style="text-align:left;margin:0">COLOQUE A FESTA NA SUA AGENDA PARA NÃO PERDER A PARTIDA.</p>
+				<div class="grid">
+					<a class="btn" href={links.gcal} target="_blank" rel="noopener">GOOGLE AGENDA</a>
+					<button class="btn" type="button" id="ics">IPHONE / OUTROS</button>
+				</div>
+			</section>
+
+			<!-- Fase 2: itens encantados -->
+			<section class="card" id="fase2">
+				<div class="card-head">
+					<span class="ico" set:html={icons.dice} />
+					<div>
+						<div class="lvl">FASE 2</div>
+						<h2>TRAGA SEUS ITENS ENCANTADOS</h2>
+					</div>
+				</div>
+				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
+					QUER JOGAR ALGO? PODE TRAZER JOGOS DE TABULEIRO, CARTAS, BRINQUEDOS OU QUALQUER ITEM ENCANTADO QUE QUISER PRA PARTIDA!
+				</p>
+				<div class="inv" aria-hidden="true">
+					<div class="slot"><span class="art" set:html={icons.dice} />TABULEIRO</div>
+					<div class="slot"><span class="art" set:html={icons.cards} />CARTAS</div>
+					<div class="slot"><span class="art" set:html={icons.dino} />BRINQUEDOS</div>
+					<div class="slot more"><span class="art">+</span>O QUE QUISER</div>
+				</div>
+				<span class="tip">ITEM OPCIONAL</span>
+			</section>
+
+			<!-- Fase bônus: área dos bebês -->
+			<section class="card bonus" id="bebes">
+				<div class="card-head">
+					<span class="ico" set:html={icons.helmet} />
+					<div>
+						<div class="lvl">FASE BÔNUS</div>
+						<h2>ÁREA DOS BEBÊS</h2>
+					</div>
+				</div>
+				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
+					OS PEQUENOS JOGADORES TERÃO UMA ÁREA SÓ DELES, COM OS BRINQUEDOS DO <b class="knight">CAVALEIRO PEDRO</b>!
+				</p>
+				<span class="tip pink">ZONA SEGURA</span>
+			</section>
+
+			<!-- Fase final: chegar -->
+			<section class="card" id="castelo">
 				<div class="card-head">
 					<span class="ico" set:html={icons.pin} />
 					<div>
-						<div class="lvl">FASE 1</div>
+						<div class="lvl">FASE FINAL</div>
 						<h2>CHEGUE AO CASTELO</h2>
 					</div>
 				</div>
@@ -537,58 +589,6 @@ const ogDescription = `${EVENT.day} | ${EVENT.time} | ${EVENT.date} - ${EVENT.th
 					</button>
 				</div>
 				<div id="copy-note" class="note" aria-live="polite"></div>
-			</section>
-
-			<!-- Fase 2: agenda -->
-			<section class="card" id="fase2">
-				<div class="card-head">
-					<span class="ico" set:html={icons.calendar} />
-					<div>
-						<div class="lvl">FASE 2</div>
-						<h2>SALVE O CHECKPOINT</h2>
-					</div>
-				</div>
-				<p class="hud-label" style="text-align:left;margin:0">COLOQUE A FESTA NA SUA AGENDA PARA NÃO PERDER A PARTIDA.</p>
-				<div class="grid">
-					<a class="btn" href={links.gcal} target="_blank" rel="noopener">GOOGLE AGENDA</a>
-					<button class="btn" type="button" id="ics">IPHONE / OUTROS</button>
-				</div>
-			</section>
-
-			<!-- Fase 3: itens encantados -->
-			<section class="card" id="fase3">
-				<div class="card-head">
-					<span class="ico" set:html={icons.dice} />
-					<div>
-						<div class="lvl">FASE 3</div>
-						<h2>TRAGA SEUS ITENS ENCANTADOS</h2>
-					</div>
-				</div>
-				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
-					QUER JOGAR ALGO? PODE TRAZER JOGOS DE TABULEIRO, CARTAS, BRINQUEDOS OU QUALQUER ITEM ENCANTADO QUE QUISER PRA PARTIDA!
-				</p>
-				<div class="inv" aria-hidden="true">
-					<div class="slot"><span class="art" set:html={icons.dice} />TABULEIRO</div>
-					<div class="slot"><span class="art" set:html={icons.cards} />CARTAS</div>
-					<div class="slot"><span class="art" set:html={icons.dino} />BRINQUEDOS</div>
-					<div class="slot more"><span class="art">+</span>O QUE QUISER</div>
-				</div>
-				<span class="tip">ITEM OPCIONAL</span>
-			</section>
-
-			<!-- Fase bônus: área dos bebês -->
-			<section class="card bonus" id="bebes">
-				<div class="card-head">
-					<span class="ico" set:html={icons.helmet} />
-					<div>
-						<div class="lvl">FASE BÔNUS</div>
-						<h2>ÁREA DOS BEBÊS</h2>
-					</div>
-				</div>
-				<p class="hud-label" style="text-align:left;margin:0;line-height:1.7">
-					OS PEQUENOS JOGADORES TERÃO UMA ÁREA SÓ DELES, COM OS BRINQUEDOS DO <b class="knight">CAVALEIRO PEDRO</b>!
-				</p>
-				<span class="tip pink">ZONA SEGURA</span>
 			</section>
 
 			<div class="divider" aria-hidden="true">
