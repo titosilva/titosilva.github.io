@@ -7,7 +7,7 @@ tags:
 - Teologia
 - Evangelho
 - Cristianismo
-pubDate: 2026-07-28
+pubDate: 2026-11-03
 category: christian
 hasPage: true
 og:
